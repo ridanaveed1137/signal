@@ -1,7 +1,7 @@
-export default function Trends() {
-  return (
-    <main className="flex-1 p-6">
-      <h1>Tools</h1>
-    </main>
-  );
+import PostFeed from "@/components/PostFeed";
+
+export const dynamic = "force-dynamic";
+
+export default function Tools() {
+  return <PostFeed type="tool" heading="Tools" />;
 }

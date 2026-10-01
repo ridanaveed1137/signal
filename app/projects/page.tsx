@@ -1,7 +1,7 @@
-export default function Trends() {
-  return (
-    <main className="flex-1 p-6">
-      <h1>Projects</h1>
-    </main>
-  );
+import PostFeed from "@/components/PostFeed";
+
+export const dynamic = "force-dynamic";
+
+export default function Projects() {
+  return <PostFeed type="project" heading="Projects" />;
 }
