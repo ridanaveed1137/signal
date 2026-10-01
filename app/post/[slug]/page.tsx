@@ -31,6 +31,11 @@ export default async function PostPage({
       <p className="mt-3 text-sm text-neutral-500">
         {post.author_name} · {new Date(post.created_at).toLocaleDateString()}
       </p>
+      <p className="mt-2 text-xs text-neutral-600">
+  {post.type === "paper"
+    ? `© ${new Date(post.created_at).getFullYear()} ${post.author_name} (summary and commentary only). The original paper belongs to its authors.`
+    : `© ${new Date(post.created_at).getFullYear()} ${post.author_name}. Posted ${new Date(post.created_at).toLocaleDateString()}.`}
+      </p>
 
       {post.summary && (
         <p className="mt-6 text-lg text-neutral-300">{post.summary}</p>
