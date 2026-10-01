@@ -1,20 +1,29 @@
 import { supabase } from "@/lib/supabase";
+import PostCard from "@/components/PostCard";
+
 export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const { data: posts, error } = await supabase
-  .from("posts")
-  .select("*")
-  .order("created_at", { ascending: false });
-  console.log("posts:", posts, "error:", error);
+    .from("posts")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.log(error);
+  }
+
   return (
     <main className="flex-1 p-6">
-      <h1>SIGNAL</h1>
-      {posts?.map((post) => (
-  <div key={post.id}>
-    <h2>{post.title}</h2>
-    {/* add post.type and post.summary yourself */}
-  </div>
-))}
+      <h1 className="mb-8 text-3xl font-bold uppercase tracking-widest">
+        Signal
+      </h1>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        {posts?.map((post) => (
+          <PostCard key={post.id} post={post} />
+        ))}
+      </div>
     </main>
   );
 }
