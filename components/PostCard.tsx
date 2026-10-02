@@ -14,7 +14,7 @@ export default function PostCard({ post }: { post: Post }) {
   return (
     <Link
       href={`/post/${post.slug}`}
-      className="flex flex-col gap-3 border border-neutral-800 p-6 transition-colors hover:border-emerald-400"
+      className="flex h-full flex-col gap-3 border border-neutral-800 p-6 transition-colors hover:border-emerald-400"
     >
       <span className="text-xs uppercase tracking-widest text-emerald-400">
         {post.type}

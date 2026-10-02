@@ -1,5 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import PostCard from "@/components/PostCard";
+import SplitFlap from "@/components/SplitFlap";
+import FadeIn from "@/components/FadeIn";
 
 export default async function PostFeed({
   type,
@@ -12,6 +14,7 @@ export default async function PostFeed({
     .from("posts")
     .select("*")
     .eq("type", type)
+    .order("featured", { ascending: false })
     .order("created_at", { ascending: false });
 
   if (error) console.log(error);
@@ -19,7 +22,7 @@ export default async function PostFeed({
   return (
     <main className="flex-1 p-6">
       <h1 className="mb-8 text-3xl font-bold uppercase tracking-widest">
-        {heading}
+        <SplitFlap text={heading.toUpperCase()} />
       </h1>
 
       {posts?.length === 0 && (
@@ -27,8 +30,10 @@ export default async function PostFeed({
       )}
 
       <div className="grid gap-4 md:grid-cols-2">
-        {posts?.map((post) => (
-          <PostCard key={post.id} post={post} />
+        {posts?.map((post, i) => (
+          <FadeIn key={post.id} delay={Math.min(i, 8) * 0.05}>
+            <PostCard post={post} />
+          </FadeIn>
         ))}
       </div>
     </main>
