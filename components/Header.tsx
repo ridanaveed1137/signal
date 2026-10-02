@@ -1,3 +1,4 @@
+import SearchBox from "@/components/SearchBox";
 import Link from "next/link";
 import AuthButton from "@/components/AuthButton";
 
@@ -11,6 +12,7 @@ export default function Header() {
         SIGNAL
       </Link>
       <nav className="flex items-center gap-6">
+        <SearchBox />
         <Link href="/trends" className={linkClass}>Trends</Link>
         <Link href="/tools" className={linkClass}>Tools</Link>
         <Link href="/papers" className={linkClass}>Papers</Link>
