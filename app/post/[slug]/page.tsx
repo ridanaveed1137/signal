@@ -1,3 +1,4 @@
+import LicenseForm from "@/components/LicenseForm";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
@@ -93,6 +94,9 @@ export default async function PostPage({
           ))}
         </div>
       )}
+      {post.licensable && post.type !== "paper" && (
+  <LicenseForm postId={post.id} />
+)}
     </main>
   );
 }
