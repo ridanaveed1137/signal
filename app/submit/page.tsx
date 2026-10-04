@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { TOPICS } from "@/lib/topics";
 
 function makeSlug(title: string) {
   const base = title
@@ -21,6 +22,7 @@ export default function SubmitPage() {
   const [ready, setReady] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [type, setType] = useState("trend");
+  const [topic, setTopic] = useState("");
   const [title, setTitle] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [summary, setSummary] = useState("");
@@ -67,6 +69,7 @@ export default function SubmitPage() {
 
     const { error } = await supabase.from("posts").insert({
       type,
+      topic: topic || null,
       title,
       slug,
       summary,
@@ -123,6 +126,22 @@ export default function SubmitPage() {
           <option value="tool" className="bg-neutral-950 text-neutral-100">Tool</option>
           <option value="paper" className="bg-neutral-950 text-neutral-100">Research paper</option>
           <option value="project" className="bg-neutral-950 text-neutral-100">Project</option>
+        </select>
+        <select
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
+          className="border border-neutral-800 bg-neutral-950 p-3 text-sm text-neutral-100 outline-none focus:border-emerald-400"
+        >
+          <option value="">Topic (optional)</option>
+          {TOPICS.map((t) => (
+            <option
+              key={t.slug}
+              value={t.slug}
+              className="bg-neutral-950 text-neutral-100"
+            >
+              {t.title}
+            </option>
+          ))}
         </select>
 
         <input

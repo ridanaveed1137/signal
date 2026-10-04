@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { TOPICS } from "@/lib/topics";
 import PostCard from "@/components/PostCard";
 import FadeIn from "@/components/FadeIn";
 import TileFlap from "@/components/TileFlap";
@@ -34,6 +35,19 @@ export default async function Home() {
     })),
   ];
 
+  // story count per topic, and the 3 busiest topics count as "trending"
+  const counts: Record<string, number> = {};
+  list.forEach((p) => {
+    if (p.topic) counts[p.topic] = (counts[p.topic] ?? 0) + 1;
+  });
+
+  const trending = new Set(
+    TOPICS.filter((t) => (counts[t.slug] ?? 0) > 0)
+      .sort((a, b) => (counts[b.slug] ?? 0) - (counts[a.slug] ?? 0))
+      .slice(0, 3)
+      .map((t) => t.slug)
+  );
+
   return (
     <main className="flex-1">
       <div className="mx-auto w-full max-w-7xl px-5">
@@ -61,7 +75,38 @@ export default async function Home() {
           <IntelFeed events={events} />
         </section>
 
-        {/* temporary: your existing grid, replaced in Steps 4-6 */}
+        <section className="border-t border-ln py-11">
+          <div className="mb-6 flex items-baseline justify-between gap-3">
+            <h2 className="text-[clamp(26px,4vw,44px)] font-bold uppercase leading-[1.05]">
+              Current signals
+            </h2>
+            <span className="mo">Topics</span>
+          </div>
+
+          <div className="sig">
+            {TOPICS.map((t) => {
+              const n = counts[t.slug] ?? 0;
+              const label =
+                n === 0 ? "quiet" : trending.has(t.slug) ? "▲ trending" : "steady";
+
+              return (
+                <Link
+                  key={t.slug}
+                  href={`/topic/${t.slug}`}
+                  style={{ "--ta": t.color } as React.CSSProperties}
+                >
+                  <span className="mo ta">
+                    {label} · {n} {n === 1 ? "story" : "stories"}
+                  </span>
+                  <h3>{t.title}</h3>
+                  <p>{t.blurb}</p>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* temporary: your existing grid, replaced in Step 5 */}
         <section className="border-t border-ln py-11">
           <h2 className="mb-6 text-[clamp(26px,4vw,44px)] font-bold uppercase leading-[1.05]">
             Latest
