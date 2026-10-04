@@ -1,3 +1,4 @@
+import CommandPalette from "@/components/CommandPalette";
 import type { MetaData } from "next";
 import { JetBrains_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   <Header />
   {children}
   <Footer />
+  <CommandPalette />
 </body>
     </html>
   );
