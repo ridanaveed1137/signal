@@ -1,1 +1,169 @@
 @import "tailwindcss";
+
+@theme {
+  --color-bg: #0a0b0c;
+  --color-ch: #131517;
+  --color-tx: #ece8df;
+  --color-mu: #8b949b;
+  --color-ac: #5fd0c4;
+  --color-gr: #8fb996;
+  --color-ln: #24282c;
+
+  --font-serif: "Fraunces Variable", Georgia, serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, Menlo, monospace;
+}
+
+html {
+  color-scheme: dark;
+  scroll-padding-top: 70px;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-tx);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* small mono label style, plus buttons */
+@layer components {
+  .mo {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mu);
+  }
+
+  .btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    border: 1px solid var(--color-tx);
+    margin: 16px 12px 0 0;
+    cursor: pointer;
+    background: none;
+    color: var(--color-tx);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .btn:hover,
+  .btn-p {
+    background: var(--color-tx);
+    color: var(--color-bg);
+  }
+  .btn-p:hover {
+    background: var(--color-ac);
+    border-color: var(--color-ac);
+  }
+}
+
+/* pulsing dot next to "Live" */
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.live::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-ac);
+  animation: blink 1.6s infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* scrolling ticker under the header */
+.tick {
+  border-top: 1px solid var(--color-ln);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 7px 0;
+}
+.tick > div {
+  display: inline-block;
+  animation: marquee 40s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* hero tiles */
+.sf {
+  display: flex;
+  gap: 3px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(18px, 3.6vw, 52px);
+  margin: 22px 0;
+}
+.tl {
+  width: 0.72em;
+  height: 1.25em;
+  display: grid;
+  place-items: center;
+  background: var(--color-ch);
+  border: 1px solid var(--color-ln);
+  border-radius: 3px;
+  position: relative;
+  color: var(--color-tx);
+}
+.tl::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: #000;
+}
+.tl.go {
+  color: var(--color-ac);
+}
+@media (max-width: 860px) {
+  .sf {
+    font-size: 5.6vw;
+  }
+}
+
+/* animated bars in the intelligence feed */
+.bars {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 34px;
+}
+.bars i {
+  flex: 1;
+  background: var(--color-ac);
+  opacity: 0.5;
+  transform-origin: bottom;
+  animation: bh 2s ease-in-out infinite alternate;
+}
+@keyframes bh {
+  to {
+    transform: scaleY(0.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

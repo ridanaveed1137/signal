@@ -1,24 +1,44 @@
-import SearchBox from "@/components/SearchBox";
 import Link from "next/link";
 import AuthButton from "@/components/AuthButton";
+import SearchBox from "@/components/SearchBox";
+import Ticker from "@/components/Ticker";
+
+const links = [
+  { href: "/trends", label: "Trends" },
+  { href: "/tools", label: "Tools" },
+  { href: "/papers", label: "Papers" },
+  { href: "/projects", label: "Projects" },
+];
 
 export default function Header() {
-  const linkClass =
-    "text-sm uppercase tracking-widest text-neutral-400 transition-colors hover:text-emerald-400";
-
   return (
-    <header className="flex items-center justify-between p-6">
-      <Link href="/" className="font-bold tracking-widest">
-        SIGNAL
-      </Link>
-      <nav className="flex items-center gap-6">
-        <SearchBox />
-        <Link href="/trends" className={linkClass}>Trends</Link>
-        <Link href="/tools" className={linkClass}>Tools</Link>
-        <Link href="/papers" className={linkClass}>Papers</Link>
-        <Link href="/projects" className={linkClass}>Projects</Link>
-        <AuthButton />
-      </nav>
+    <header className="sticky top-0 z-50 border-b border-ln bg-bg/90 backdrop-blur">
+      <div className="mx-auto flex h-14 max-w-7xl items-center gap-5 px-5">
+        <Link href="/" className="text-xl font-bold tracking-[0.06em]">
+          SIGNAL
+        </Link>
+
+        <span className="live mo text-ac">Live</span>
+
+        <nav className="mo ml-4 flex gap-5 overflow-x-auto">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="whitespace-nowrap transition-colors hover:text-ac"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="mo ml-auto flex items-center gap-4 whitespace-nowrap">
+          <SearchBox />
+          <AuthButton />
+        </div>
+      </div>
+
+      <Ticker />
     </header>
   );
 }

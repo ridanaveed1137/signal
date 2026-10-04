@@ -29,8 +29,7 @@ export default function AuthButton() {
     router.refresh();
   }
 
-  const linkClass =
-    "text-sm uppercase tracking-widest text-neutral-400 transition-colors hover:text-emerald-400";
+  const linkClass = "transition-colors hover:text-ac";
 
   if (!loggedIn) {
     return (

@@ -16,7 +16,6 @@ export default function CommandPalette() {
   const [results, setResults] = useState<Result[]>([]);
   const [active, setActive] = useState(0);
   const [searched, setSearched] = useState(false);
-
   // open and close shortcuts
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -25,6 +24,13 @@ export default function CommandPalette() {
         setOpen((o) => !o);
       }
       if (e.key === "Escape") setOpen(false);
+
+      // "/" opens search too, but not while you are typing in a form field
+      const tag = (e.target as HTMLElement).tagName;
+      if (e.key === "/" && !["INPUT", "TEXTAREA", "SELECT"].includes(tag)) {
+        e.preventDefault();
+        setOpen(true);
+      }
     }
     function onOpen() {
       setOpen(true);
