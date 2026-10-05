@@ -12,6 +12,7 @@ type Post = {
   author_name: string;
   licensable?: boolean;
   created_at: string;
+  curated?: boolean;
 };
 
 const TYPE_COLOR: Record<string, string> = {
@@ -63,6 +64,7 @@ export default function PostCard({ post }: { post: Post }) {
       <span className="mo ta">
         {label}
         {post.licensable && <span className="tag">Licensable</span>}
+        {post.curated && <span className="tag">Curated</span>}
         {isNew(post.created_at) && <span className="tag">New</span>}
       </span>
 

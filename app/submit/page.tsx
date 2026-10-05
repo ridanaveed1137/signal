@@ -15,6 +15,9 @@ function makeSlug(title: string) {
 
 const inputClass =
   "border border-ln bg-transparent p-3 text-sm outline-none focus:border-ac";
+const selectClass =
+  "border border-ln bg-bg p-3 text-sm text-tx outline-none focus:border-ac";
+const optClass = "bg-bg text-tx";
 
 export default function SubmitPage() {
   const router = useRouter();
@@ -23,6 +26,8 @@ export default function SubmitPage() {
   const [submitted, setSubmitted] = useState(false);
   const [type, setType] = useState("trend");
   const [topic, setTopic] = useState("");
+  const [curated, setCurated] = useState(false);
+  const [sourceUrl, setSourceUrl] = useState("");
   const [title, setTitle] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [summary, setSummary] = useState("");
@@ -80,7 +85,9 @@ export default function SubmitPage() {
         .map((t) => t.trim())
         .filter(Boolean),
       metadata,
-      licensable: type === "paper" ? false : licensable,
+      curated,
+      source_url: curated ? sourceUrl : null,
+      licensable: type === "paper" || curated ? false : licensable,
     });
 
     setLoading(false);
@@ -120,29 +127,51 @@ export default function SubmitPage() {
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
-          className="border border-ln bg-bg p-3 text-sm text-tx outline-none focus:border-ac"
+          className={selectClass}
         >
-          <option value="trend" className="bg-bg text-tx">Trend</option>
-          <option value="tool" className="bg-bg text-tx">Tool</option>
-          <option value="paper" className="bg-bg text-tx">Research paper</option>
-          <option value="project" className="bg-bg text-tx">Project</option>
+          <option value="trend" className={optClass}>Trend</option>
+          <option value="tool" className={optClass}>Tool</option>
+          <option value="paper" className={optClass}>Research paper</option>
+          <option value="project" className={optClass}>Project</option>
         </select>
+
         <select
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
-          className="border border-ln bg-bg p-3 text-sm text-tx outline-none focus:border-ac"
+          className={selectClass}
         >
-          <option value="">Topic (optional)</option>
+          <option value="" className={optClass}>Topic (optional)</option>
           {TOPICS.map((t) => (
-            <option
-              key={t.slug}
-              value={t.slug}
-              className="bg-bg text-tx"
-            >
+            <option key={t.slug} value={t.slug} className={optClass}>
               {t.title}
             </option>
           ))}
         </select>
+
+        <label className="flex items-start gap-2 text-sm text-mu">
+          <input
+            type="checkbox"
+            checked={curated}
+            onChange={(e) => setCurated(e.target.checked)}
+            className="mt-1"
+          />
+          <span>
+            Curated from another source. I am summarizing someone else&apos;s
+            work in my own words and linking to the original.
+          </span>
+        </label>
+
+        {curated && (
+          <input
+            type="url"
+            placeholder="Link to the original source (https://...)"
+            value={sourceUrl}
+            onChange={(e) => setSourceUrl(e.target.value)}
+            required
+            pattern="https://.*"
+            className={inputClass}
+          />
+        )}
 
         <input
           placeholder="Title"
@@ -153,7 +182,9 @@ export default function SubmitPage() {
         />
 
         <input
-          placeholder="Author name (shown on the post)"
+          placeholder={
+            curated ? "Curated by (your name)" : "Author name (shown on the post)"
+          }
           value={authorName}
           onChange={(e) => setAuthorName(e.target.value)}
           required
@@ -235,7 +266,9 @@ export default function SubmitPage() {
 
         <textarea
           placeholder={
-            type === "paper"
+            curated
+              ? "In your own words: what it is and why it matters. Do not paste the original text."
+              : type === "paper"
               ? "Your plain-language summary and commentary"
               : "Write your post here"
           }
@@ -252,7 +285,7 @@ export default function SubmitPage() {
           className={inputClass}
         />
 
-        {type !== "paper" && (
+        {type !== "paper" && !curated && (
           <label className="flex items-center gap-2 text-sm text-mu">
             <input
               type="checkbox"
