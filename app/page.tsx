@@ -109,9 +109,9 @@ export default async function Home() {
         {/* temporary: your existing grid, replaced in Step 5 */}
         <section className="border-t border-ln py-11">
           <h2 className="mb-6 text-[clamp(26px,4vw,44px)] font-bold uppercase leading-[1.05]">
-            Latest
+            Latest intelligence
           </h2>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {list.map((post, i) => (
               <FadeIn key={post.id} delay={Math.min(i, 8) * 0.05}>
                 <PostCard post={post} />

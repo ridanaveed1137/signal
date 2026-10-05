@@ -210,3 +210,80 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* cards */
+.cd {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid var(--color-ln);
+  padding: 22px;
+  background: var(--color-ch);
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.cd:hover {
+  border-color: var(--ta, var(--color-ac));
+  transform: translateY(-3px);
+}
+.cd::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 60px;
+  top: -60px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    transparent,
+    color-mix(in srgb, var(--ta, #5fd0c4) 14%, transparent),
+    transparent
+  );
+}
+.cd:hover::before {
+  animation: scan 1.2s linear;
+}
+@keyframes scan {
+  to {
+    top: 100%;
+  }
+}
+.cd h3 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.05;
+  margin: 8px 0;
+  text-transform: uppercase;
+}
+.cv {
+  margin: -22px -22px 16px;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-ln);
+}
+.cv svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform 0.6s;
+}
+.cd:hover .cv svg {
+  transform: scale(1.06);
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: auto;
+}
+.ta {
+  color: var(--ta, var(--color-ac));
+}
+.tag {
+  display: inline-block;
+  border: 1px solid var(--ta, var(--color-ac));
+  color: var(--ta, var(--color-ac));
+  padding: 1px 6px;
+  margin-left: 8px;
+  font: 11px var(--font-mono);
+}
