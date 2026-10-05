@@ -46,7 +46,7 @@ export default function LoginPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="border border-neutral-800 bg-transparent p-3 text-sm outline-none focus:border-emerald-400"
+          className="border border-ln bg-transparent p-3 text-sm outline-none focus:border-ac"
         />
         <input
           type="password"
@@ -55,13 +55,13 @@ export default function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={6}
-          className="border border-neutral-800 bg-transparent p-3 text-sm outline-none focus:border-emerald-400"
+          className="border border-ln bg-transparent p-3 text-sm outline-none focus:border-ac"
         />
 
         <button
           type="submit"
           disabled={loading}
-          className="border border-emerald-400 p-3 text-sm uppercase tracking-widest text-emerald-400 transition-colors hover:bg-emerald-400 hover:text-black disabled:opacity-50"
+          className="border border-ac p-3 text-sm uppercase tracking-widest text-ac transition-colors hover:bg-ac hover:text-black disabled:opacity-50"
         >
           {loading ? "..." : mode === "login" ? "Log in" : "Create account"}
         </button>
@@ -71,7 +71,7 @@ export default function LoginPage() {
 
       <button
         onClick={() => setMode(mode === "login" ? "signup" : "login")}
-        className="mt-6 text-sm text-neutral-500 hover:text-neutral-300"
+        className="mt-6 text-sm text-mu hover:text-tx"
       >
         {mode === "login"
           ? "No account? Sign up"

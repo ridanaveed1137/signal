@@ -14,7 +14,7 @@ function makeSlug(title: string) {
 }
 
 const inputClass =
-  "border border-neutral-800 bg-transparent p-3 text-sm outline-none focus:border-emerald-400";
+  "border border-ln bg-transparent p-3 text-sm outline-none focus:border-ac";
 
 export default function SubmitPage() {
   const router = useRouter();
@@ -100,7 +100,7 @@ export default function SubmitPage() {
         <h1 className="mb-4 text-2xl font-bold uppercase tracking-widest">
           Submitted
         </h1>
-        <p className="text-sm text-neutral-400">
+        <p className="text-sm text-mu">
           Thanks! Your post is in review and will appear on Signal once it is
           approved.
         </p>
@@ -120,24 +120,24 @@ export default function SubmitPage() {
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
-          className="border border-neutral-800 bg-neutral-950 p-3 text-sm text-neutral-100 outline-none focus:border-emerald-400"
+          className="border border-ln bg-bg p-3 text-sm text-tx outline-none focus:border-ac"
         >
-          <option value="trend" className="bg-neutral-950 text-neutral-100">Trend</option>
-          <option value="tool" className="bg-neutral-950 text-neutral-100">Tool</option>
-          <option value="paper" className="bg-neutral-950 text-neutral-100">Research paper</option>
-          <option value="project" className="bg-neutral-950 text-neutral-100">Project</option>
+          <option value="trend" className="bg-bg text-tx">Trend</option>
+          <option value="tool" className="bg-bg text-tx">Tool</option>
+          <option value="paper" className="bg-bg text-tx">Research paper</option>
+          <option value="project" className="bg-bg text-tx">Project</option>
         </select>
         <select
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
-          className="border border-neutral-800 bg-neutral-950 p-3 text-sm text-neutral-100 outline-none focus:border-emerald-400"
+          className="border border-ln bg-bg p-3 text-sm text-tx outline-none focus:border-ac"
         >
           <option value="">Topic (optional)</option>
           {TOPICS.map((t) => (
             <option
               key={t.slug}
               value={t.slug}
-              className="bg-neutral-950 text-neutral-100"
+              className="bg-bg text-tx"
             >
               {t.title}
             </option>
@@ -253,7 +253,7 @@ export default function SubmitPage() {
         />
 
         {type !== "paper" && (
-          <label className="flex items-center gap-2 text-sm text-neutral-400">
+          <label className="flex items-center gap-2 text-sm text-mu">
             <input
               type="checkbox"
               checked={licensable}
@@ -266,7 +266,7 @@ export default function SubmitPage() {
         <button
           type="submit"
           disabled={loading}
-          className="border border-emerald-400 p-3 text-sm uppercase tracking-widest text-emerald-400 transition-colors hover:bg-emerald-400 hover:text-black disabled:opacity-50"
+          className="border border-ac p-3 text-sm uppercase tracking-widest text-ac transition-colors hover:bg-ac hover:text-black disabled:opacity-50"
         >
           {loading ? "Publishing..." : "Publish"}
         </button>

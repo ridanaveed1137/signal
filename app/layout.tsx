@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
-    <body className={`${mono.variable} ${heading.variable} bg-neutral-950 text-neutral-100 font-mono min-h-screen flex flex-col`}>
+    <body className={`${mono.variable} ${heading.variable} bg-bg text-tx font-mono min-h-screen flex flex-col`}>
   <Header />
   {children}
   <Footer />

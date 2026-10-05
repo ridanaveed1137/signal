@@ -28,7 +28,7 @@ type LicenseRequest = {
 };
 
 const btn =
-  "border border-neutral-700 px-3 py-1 text-xs uppercase tracking-widest transition-colors hover:border-emerald-400 hover:text-emerald-400";
+  "border border-ln px-3 py-1 text-xs uppercase tracking-widest transition-colors hover:border-ac hover:text-ac";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -102,7 +102,7 @@ export default function AdminPage() {
   if (state === "denied") {
     return (
       <main className="flex-1 p-6">
-        <p className="text-sm text-neutral-400">You do not have access to this page.</p>
+        <p className="text-sm text-mu">You do not have access to this page.</p>
       </main>
     );
   }
@@ -164,15 +164,15 @@ export default function AdminPage() {
       <Section title={`License requests (${requests.length})`}>
         {requests.length === 0 && <Empty text="No requests yet." />}
         {requests.map((r) => (
-          <div key={r.id} className="border border-neutral-800 p-4 text-sm">
-            <p className="text-neutral-200">
+          <div key={r.id} className="border border-ln p-4 text-sm">
+            <p className="text-tx">
               {r.requester_name} · {r.requester_email}
             </p>
-            <p className="mt-1 text-xs text-neutral-500">
+            <p className="mt-1 text-xs text-mu">
               For: {r.posts?.title ?? "(deleted post)"} ·{" "}
               {new Date(r.created_at).toLocaleDateString()}
             </p>
-            <p className="mt-3 whitespace-pre-wrap text-neutral-400">{r.message}</p>
+            <p className="mt-3 whitespace-pre-wrap text-mu">{r.message}</p>
           </div>
         ))}
       </Section>
@@ -183,28 +183,28 @@ export default function AdminPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mb-10">
-      <h2 className="mb-4 text-sm uppercase tracking-widest text-emerald-400">{title}</h2>
+      <h2 className="mb-4 text-sm uppercase tracking-widest text-ac">{title}</h2>
       <div className="flex flex-col gap-3">{children}</div>
     </section>
   );
 }
 
 function Empty({ text }: { text: string }) {
-  return <p className="text-sm text-neutral-600">{text}</p>;
+  return <p className="text-sm text-mu">{text}</p>;
 }
 
 function Row({ post, children }: { post: Post; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-3 border border-neutral-800 p-4 md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-3 border border-ln p-4 md:flex-row md:items-center md:justify-between">
       <div>
-        <p className="text-xs uppercase tracking-widest text-neutral-500">
+        <p className="text-xs uppercase tracking-widest text-mu">
           {post.type}
           {post.featured && " · featured"}
         </p>
-        <Link href={`/post/${post.slug}`} className="font-bold hover:text-emerald-400">
+        <Link href={`/post/${post.slug}`} className="font-bold hover:text-ac">
           {post.title}
         </Link>
-        <p className="text-xs text-neutral-500">
+        <p className="text-xs text-mu">
           {post.author_name} · {new Date(post.created_at).toLocaleDateString()}
         </p>
       </div>

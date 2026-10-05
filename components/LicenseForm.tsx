@@ -4,7 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 
 const inputClass =
-  "border border-neutral-800 bg-transparent p-3 text-sm outline-none focus:border-emerald-400";
+  "border border-ln bg-transparent p-3 text-sm outline-none focus:border-ac";
 
 export default function LicenseForm({ postId }: { postId: string }) {
   const [open, setOpen] = useState(false);
@@ -39,7 +39,7 @@ export default function LicenseForm({ postId }: { postId: string }) {
 
   if (sent) {
     return (
-      <p className="mt-10 border border-emerald-400 p-4 text-sm text-emerald-400">
+      <p className="mt-10 border border-ac p-4 text-sm text-ac">
         Request sent. The author will get back to you by email.
       </p>
     );
@@ -49,7 +49,7 @@ export default function LicenseForm({ postId }: { postId: string }) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="mt-10 border border-emerald-400 px-4 py-3 text-sm uppercase tracking-widest text-emerald-400 transition-colors hover:bg-emerald-400 hover:text-black"
+        className="mt-10 border border-ac px-4 py-3 text-sm uppercase tracking-widest text-ac transition-colors hover:bg-ac hover:text-black"
       >
         Contact author to license
       </button>
@@ -59,9 +59,9 @@ export default function LicenseForm({ postId }: { postId: string }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-10 flex flex-col gap-4 border border-neutral-800 p-6"
+      className="mt-10 flex flex-col gap-4 border border-ln p-6"
     >
-      <h2 className="text-sm uppercase tracking-widest text-emerald-400">
+      <h2 className="text-sm uppercase tracking-widest text-ac">
         License request
       </h2>
 
@@ -93,14 +93,14 @@ export default function LicenseForm({ postId }: { postId: string }) {
         <button
           type="submit"
           disabled={loading}
-          className="border border-emerald-400 px-4 py-3 text-sm uppercase tracking-widest text-emerald-400 transition-colors hover:bg-emerald-400 hover:text-black disabled:opacity-50"
+          className="border border-ac px-4 py-3 text-sm uppercase tracking-widest text-ac transition-colors hover:bg-ac hover:text-black disabled:opacity-50"
         >
           {loading ? "Sending..." : "Send request"}
         </button>
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="text-sm text-neutral-500 hover:text-neutral-300"
+          className="text-sm text-mu hover:text-tx"
         >
           Cancel
         </button>

@@ -23,28 +23,28 @@ export default async function PostPage({
 
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 p-6">
-      <span className="text-xs uppercase tracking-widest text-emerald-400">
+      <span className="text-xs uppercase tracking-widest text-ac">
         {post.type}
       </span>
 
       <h1 className="mt-3 text-3xl font-bold leading-tight">{post.title}</h1>
 
-      <p className="mt-3 text-sm text-neutral-500">
+      <p className="mt-3 text-sm text-mu">
         {post.author_name} · {new Date(post.created_at).toLocaleDateString()}
       </p>
-      <p className="mt-2 text-xs text-neutral-600">
+      <p className="mt-2 text-xs text-mu">
   {post.type === "paper"
     ? `© ${new Date(post.created_at).getFullYear()} ${post.author_name} (summary and commentary only). The original paper belongs to its authors.`
     : `© ${new Date(post.created_at).getFullYear()} ${post.author_name}. Posted ${new Date(post.created_at).toLocaleDateString()}.`}
       </p>
 
       {post.summary && (
-        <p className="mt-6 text-lg text-neutral-300">{post.summary}</p>
+        <p className="mt-6 text-lg text-tx">{post.summary}</p>
       )}
 
       {/* type-specific details from the metadata column */}
       {post.type === "paper" && (
-        <div className="mt-6 border border-neutral-800 p-4 text-sm text-neutral-400">
+        <div className="mt-6 border border-ln p-4 text-sm text-mu">
           {meta.authors && <p>Authors: {meta.authors}</p>}
           {meta.year && <p>Year: {meta.year}</p>}
           {meta.link && (
@@ -52,7 +52,7 @@ export default async function PostPage({
               href={meta.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-emerald-400 hover:underline"
+              className="text-ac hover:underline"
             >
               Read the original paper
             </a>
@@ -61,14 +61,14 @@ export default async function PostPage({
       )}
 
       {post.type === "tool" && (
-        <div className="mt-6 border border-neutral-800 p-4 text-sm text-neutral-400">
+        <div className="mt-6 border border-ln p-4 text-sm text-mu">
           {meta.license && <p>License: {meta.license}</p>}
           {meta.repo && (
             <a
               href={meta.repo}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-emerald-400 hover:underline"
+              className="text-ac hover:underline"
             >
               View repository
             </a>
@@ -77,7 +77,7 @@ export default async function PostPage({
       )}
 
       {post.body && (
-        <div className="mt-8 whitespace-pre-wrap leading-relaxed text-neutral-200">
+        <div className="mt-8 whitespace-pre-wrap leading-relaxed text-tx">
           {post.body}
         </div>
       )}
@@ -87,7 +87,7 @@ export default async function PostPage({
           {post.tags.map((tag: string) => (
             <span
               key={tag}
-              className="border border-neutral-800 px-2 py-1 text-xs text-neutral-500"
+              className="border border-ln px-2 py-1 text-xs text-mu"
             >
               #{tag}
             </span>

@@ -128,7 +128,7 @@ export default function CommandPalette() {
             role="dialog"
             aria-modal="true"
             aria-label="Search"
-            className="w-full max-w-xl border border-neutral-800 bg-neutral-950"
+            className="w-full max-w-xl border border-ln bg-bg"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
@@ -141,7 +141,7 @@ export default function CommandPalette() {
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={onInputKey}
               placeholder="Search trends, tools, papers, projects..."
-              className="w-full border-b border-neutral-800 bg-transparent p-4 text-sm outline-none"
+              className="w-full border-b border-ln bg-transparent p-4 text-sm outline-none"
             />
 
             <ul>
@@ -151,10 +151,10 @@ export default function CommandPalette() {
                     onClick={() => go(r)}
                     onMouseEnter={() => setActive(i)}
                     className={`flex w-full items-center gap-3 p-3 text-left text-sm transition-colors ${
-                      i === active ? "bg-neutral-900" : ""
+                      i === active ? "bg-ch" : ""
                     }`}
                   >
-                    <span className="w-16 shrink-0 text-xs uppercase tracking-widest text-emerald-400">
+                    <span className="w-16 shrink-0 text-xs uppercase tracking-widest text-ac">
                       {r.type}
                     </span>
                     <span className="truncate">{r.title}</span>
@@ -164,10 +164,10 @@ export default function CommandPalette() {
             </ul>
 
             {searched && results.length === 0 && (
-              <p className="p-4 text-sm text-neutral-500">No results.</p>
+              <p className="p-4 text-sm text-mu">No results.</p>
             )}
 
-            <p className="border-t border-neutral-800 p-3 text-xs text-neutral-600">
+            <p className="border-t border-ln p-3 text-xs text-mu">
               ↑↓ to move · Enter to open (or see all results if none is selected) · Esc to close
             </p>
           </motion.div>
