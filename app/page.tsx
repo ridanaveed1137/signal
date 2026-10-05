@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { TOPICS } from "@/lib/topics";
+import { FIELD_NOTES } from "@/lib/fieldNotes";
 import PostCard from "@/components/PostCard";
 import FadeIn from "@/components/FadeIn";
 import TileFlap from "@/components/TileFlap";
@@ -51,6 +52,7 @@ export default async function Home() {
   return (
     <main className="flex-1">
       <div className="mx-auto w-full max-w-7xl px-5">
+        {/* hero */}
         <section className="grid gap-10 py-14 md:grid-cols-[1.25fr_1fr]">
           <div>
             <span className="mo">[ Security publication / 2026 ]</span>
@@ -75,6 +77,7 @@ export default async function Home() {
           <IntelFeed events={events} />
         </section>
 
+        {/* current signals */}
         <section className="border-t border-ln py-11">
           <div className="mb-6 flex items-baseline justify-between gap-3">
             <h2 className="text-[clamp(26px,4vw,44px)] font-bold uppercase leading-[1.05]">
@@ -106,11 +109,12 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* temporary: your existing grid, replaced in Step 5 */}
+        {/* latest intelligence */}
         <section className="border-t border-ln py-11">
           <h2 className="mb-6 text-[clamp(26px,4vw,44px)] font-bold uppercase leading-[1.05]">
             Latest intelligence
           </h2>
+
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {list.map((post, i) => (
               <FadeIn key={post.id} delay={Math.min(i, 8) * 0.05}>
@@ -118,6 +122,41 @@ export default async function Home() {
               </FadeIn>
             ))}
           </div>
+        </section>
+
+        {/* field notes */}
+        <section className="border-t border-ln py-11">
+          <h2 className="mb-6 text-[clamp(26px,4vw,44px)] font-bold uppercase leading-[1.05]">
+            Field notes
+          </h2>
+
+          <div className="fn">
+            {FIELD_NOTES.map((note, i) => (
+              <div key={i}>
+                <span
+                  className="mo"
+                  style={{ color: TOPICS[i % TOPICS.length].color }}
+                >
+                  Note {String(i + 1).padStart(2, "0")}
+                </span>
+                <b>{note}</b>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* publish */}
+        <section className="border-t border-ln py-11">
+          <h2 className="text-[clamp(26px,4vw,44px)] font-bold uppercase leading-[1.05]">
+            Publish what you find.
+          </h2>
+          <p className="mt-2 max-w-[60ch] text-mu">
+            Write it up. An editor reviews it. Approved work goes public with
+            your name and timestamp.
+          </p>
+          <Link href="/submit" className="btn btn-p">
+            Submit research
+          </Link>
         </section>
       </div>
     </main>

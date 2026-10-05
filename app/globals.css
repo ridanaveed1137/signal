@@ -287,3 +287,30 @@ body {
   margin-left: 8px;
   font: 11px var(--font-mono);
 }
+/* field notes */
+.fn {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.fn > div {
+  border: 1px solid var(--color-ln);
+  background: var(--color-ch);
+  padding: 16px;
+}
+.fn b {
+  display: block;
+  font-size: 17px;
+  line-height: 1.2;
+  margin-top: 8px;
+}
+@media (max-width: 860px) {
+  .fn {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 520px) {
+  .fn {
+    grid-template-columns: 1fr;
+  }
+}
