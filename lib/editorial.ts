@@ -35,3 +35,13 @@ export function readMinutes(body?: string | null) {
   const words = (body ?? "").split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
 }
+export function safeUrl(u?: string | number | null) {
+  try {
+    const url = new URL(String(u));
+    return url.protocol === "https:" || url.protocol === "http:"
+      ? url.toString()
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
