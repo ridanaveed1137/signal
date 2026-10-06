@@ -29,7 +29,7 @@ export default function AuthButton() {
     router.refresh();
   }
 
-  const linkClass = "transition-colors hover:text-ac";
+  const linkClass = "uppercase transition-colors hover:text-ac";
 
   if (!loggedIn) {
     return (

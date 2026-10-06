@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Cover from "@/components/Cover";
+import Visual from "@/components/Visual";
 import type { Post } from "@/lib/types";
 import { colorFor, labelFor, stamp } from "@/lib/editorial";
 
@@ -21,12 +21,7 @@ export default function FeatureStory({
       <div className={`md:col-span-5 ${flip ? "md:order-2" : ""}`}>
         <div className="aspect-[4/5] overflow-hidden border border-ln">
           <div className="h-full w-full transition-transform duration-700 group-hover:scale-[1.04] [&>svg]:block [&>svg]:h-full [&>svg]:w-full">
-            <Cover
-              seed={post.slug}
-              color={color}
-              label={labelFor(post)}
-              shape="tall"
-            />
+            <Visual post={post} shape="tall" big />
           </div>
         </div>
       </div>

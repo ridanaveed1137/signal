@@ -14,7 +14,7 @@ const LABELS = [
 ];
 
 const SIZES = {
-  wide: [400, 200],
+  wide: [400, 225],
   tall: [300, 400],
   square: [320, 320],
 } as const;

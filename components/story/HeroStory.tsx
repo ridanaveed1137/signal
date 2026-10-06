@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Cover from "@/components/Cover";
+import Visual from "@/components/Visual";
 import type { Post } from "@/lib/types";
 import { colorFor, labelFor, stamp, readMinutes } from "@/lib/editorial";
 
@@ -14,11 +14,7 @@ export default function HeroStory({ post }: { post: Post }) {
     >
       <div className="aspect-[16/9] overflow-hidden border border-ln">
         <div className="h-full w-full transition-transform duration-700 group-hover:scale-[1.03] [&>svg]:block [&>svg]:h-full [&>svg]:w-full">
-          <Cover
-            seed={post.slug}
-            color={color}
-            label={`${labelFor(post)} · ${post.type}`}
-          />
+          <Visual post={post} big />
         </div>
       </div>
 

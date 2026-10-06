@@ -14,7 +14,10 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-ln bg-bg/90 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-7xl items-center gap-5 px-5">
-        <Link href="/" className="text-xl font-bold tracking-[0.06em]">
+        <Link
+          href="/"
+          className="font-serif text-xl font-bold tracking-[0.06em]"
+        >
           SIGNAL
         </Link>
 
@@ -25,7 +28,7 @@ export default function Header() {
             <Link
               key={l.href}
               href={l.href}
-             className="font-serif text-xl font-bold tracking-[0.06em]"
+              className="whitespace-nowrap transition-colors hover:text-ac"
             >
               {l.label}
             </Link>
