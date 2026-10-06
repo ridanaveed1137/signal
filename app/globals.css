@@ -8,8 +8,11 @@
   --color-ac: #5fd0c4;
   --color-gr: #8fb996;
   --color-ln: #24282c;
+  --color-paper: #ece8df;
+  --color-ink: #16130f;
 
   --font-serif: "Fraunces Variable", Georgia, serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, Menlo, monospace;
 }
 
@@ -22,7 +25,7 @@ body {
   margin: 0;
   background: var(--color-bg);
   color: var(--color-tx);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
@@ -312,5 +315,13 @@ body {
 @media (max-width: 520px) {
   .fn {
     grid-template-columns: 1fr;
+  }
+}
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
   }
 }

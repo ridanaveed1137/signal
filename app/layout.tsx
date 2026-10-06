@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "@fontsource-variable/fraunces";
 import "@fontsource-variable/jetbrains-mono";
+import "@fontsource-variable/inter";
 import "./globals.css";
 
 const mono = JetBrains_Mono({

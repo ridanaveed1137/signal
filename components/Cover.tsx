@@ -13,35 +13,47 @@ const LABELS = [
   "SYNC OK",
 ];
 
+const SIZES = {
+  wide: [400, 200],
+  tall: [300, 400],
+  square: [320, 320],
+} as const;
+
 export default function Cover({
   seed,
   color,
-  label,
+  label = "",
+  shape = "wide",
 }: {
   seed: string;
   color: string;
-  label: string;
+  label?: string;
+  shape?: keyof typeof SIZES;
 }) {
-  const r = rng(seed);
+  const [W, H] = SIZES[shape];
+  const r = rng(`${seed}-${shape}`);
   const bars = r() > 0.65;
-  const gid = `g-${seed}`;
+  const gid = `g-${shape}-${seed}`;
 
   const nodes = Array.from({ length: 9 }, () => ({
-    x: Math.round(24 + r() * 352),
-    y: Math.round(20 + r() * 120),
+    x: Math.round(24 + r() * (W - 48)),
+    y: Math.round(20 + r() * (H - 70)),
   }));
 
   const tags = Array.from({ length: 4 }, () => ({
-    x: Math.round(12 + r() * 260),
-    y: Math.round(24 + r() * 130),
+    x: Math.round(12 + r() * (W - 140)),
+    y: Math.round(24 + r() * (H - 60)),
     t: LABELS[Math.floor(r() * LABELS.length)],
   }));
 
-  const columns = Array.from({ length: 12 }, () => Math.round(20 + r() * 80));
+  const step = (W - 40) / 12;
+  const columns = Array.from({ length: 12 }, () =>
+    Math.round(20 + r() * (H * 0.4))
+  );
 
   return (
     <svg
-      viewBox="0 0 400 200"
+      viewBox={`0 0 ${W} ${H}`}
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
     >
@@ -52,7 +64,7 @@ export default function Cover({
         </linearGradient>
       </defs>
 
-      <rect width="400" height="200" fill={`url(#${gid})`} />
+      <rect width={W} height={H} fill={`url(#${gid})`} />
 
       {tags.map((g, i) => (
         <text
@@ -72,9 +84,9 @@ export default function Cover({
         columns.map((h, i) => (
           <rect
             key={`b${i}`}
-            x={20 + i * 31}
-            y={170 - h}
-            width="18"
+            x={20 + i * step}
+            y={H - 30 - h}
+            width={step * 0.6}
             height={h}
             fill={color}
             fillOpacity="0.45"
@@ -102,17 +114,19 @@ export default function Cover({
         </>
       )}
 
-      <text
-        x="14"
-        y="190"
-        fontSize="10"
-        fill="#ece8df"
-        fillOpacity="0.85"
-        letterSpacing="1.2"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
-        {label.toUpperCase()}
-      </text>
+      {label && (
+        <text
+          x="14"
+          y={H - 10}
+          fontSize="10"
+          fill="#ece8df"
+          fillOpacity="0.85"
+          letterSpacing="1.2"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          {label.toUpperCase()}
+        </text>
+      )}
     </svg>
   );
 }

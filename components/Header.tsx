@@ -25,7 +25,7 @@ export default function Header() {
             <Link
               key={l.href}
               href={l.href}
-              className="whitespace-nowrap transition-colors hover:text-ac"
+             className="font-serif text-xl font-bold tracking-[0.06em]"
             >
               {l.label}
             </Link>
