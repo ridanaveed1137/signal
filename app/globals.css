@@ -325,3 +325,61 @@ body {
     font-family: var(--font-serif);
   }
 }
+/* markdown body */
+.prose-signal {
+  color: var(--color-tx);
+  line-height: 1.75;
+  max-width: 70ch;
+}
+.prose-signal h2 {
+  margin: 2em 0 0.6em;
+  font-size: clamp(22px, 3vw, 32px);
+}
+.prose-signal h3 {
+  margin: 1.8em 0 0.5em;
+  font-size: clamp(18px, 2.4vw, 24px);
+}
+.prose-signal p {
+  margin: 1em 0;
+}
+.prose-signal ul,
+.prose-signal ol {
+  margin: 1em 0;
+  padding-left: 1.4em;
+}
+.prose-signal li {
+  margin: 0.3em 0;
+}
+.prose-signal li::marker {
+  color: var(--color-ac);
+}
+.prose-signal code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-ch);
+  border: 1px solid var(--color-ln);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+}
+.prose-signal pre {
+  margin: 1.4em 0;
+  padding: 16px;
+  background: var(--color-ch);
+  border: 1px solid var(--color-ln);
+  overflow-x: auto;
+}
+.prose-signal pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.prose-signal a {
+  color: var(--color-ac);
+  text-decoration: underline;
+}
+.prose-signal blockquote {
+  margin: 1.4em 0;
+  padding-left: 1em;
+  border-left: 2px solid var(--color-ac);
+  color: var(--color-mu);
+}
