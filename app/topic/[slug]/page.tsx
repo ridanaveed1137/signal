@@ -1,3 +1,4 @@
+import { TOPICS } from "@/lib/topics";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -30,11 +31,15 @@ export default async function TopicPage({
   return (
     <main className="flex-1">
       <div className="mx-auto w-full max-w-7xl px-5">
-        <section className="py-14">
+        <section className="relative overflow-hidden py-14">
+          <span className="ghost-num pointer-events-none absolute -right-4 -top-6 text-[clamp(120px,22vw,320px)]">
+            {TOPICS.findIndex((t) => t.slug === topic.slug) + 1 || "01"}
+          </span>
+
           <span className="mo" style={{ color: topic.color }}>
             {topic.title} / Security signal
           </span>
-          <h1 className="my-3.5 text-[clamp(38px,9vw,120px)] font-bold leading-[1.05]">
+          <h1 className="display my-3.5 text-[clamp(44px,10vw,140px)] italic leading-[0.9]">
             {topic.headline}
           </h1>
           <p className="max-w-[44ch] text-[clamp(18px,2vw,24px)] text-mu">

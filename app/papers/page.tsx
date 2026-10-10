@@ -62,8 +62,8 @@ export default async function PapersPage() {
                       {p.title}
                     </h2>
                     {p.summary && (
-                      <p className="mt-5 max-w-[56ch] text-xl text-ink/80">
-                        {p.summary}
+                      <p className="pull mt-5 max-w-[52ch] text-[clamp(22px,2.6vw,32px)] text-ink/85">
+                        "{p.summary}"
                       </p>
                     )}
                   </Link>

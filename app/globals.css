@@ -13,6 +13,8 @@
 
   --font-serif: "Fraunces Variable", Georgia, serif;
   --font-sans: "Inter Variable", system-ui, sans-serif;
+  --font-display: "Bebas Neue", Impact, sans-serif;
+  --font-script: "Caveat Variable", cursive; 
   --font-mono: "JetBrains Mono Variable", ui-monospace, Menlo, monospace;
 }
 
@@ -382,4 +384,57 @@ body {
   padding-left: 1em;
   border-left: 2px solid var(--color-ac);
   color: var(--color-mu);
+}
+/* expressive typography utilities */
+@layer components {
+  .kicker {
+    font-family: var(--font-display);
+    font-size: clamp(16px, 2vw, 22px);
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+
+  .display {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+    line-height: 0.88;
+  }
+
+  .script {
+    font-family: var(--font-script);
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  /* rotated stamp badge, like a magazine cover credit block */
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transform: rotate(-3deg);
+    border: 1px solid var(--ta, var(--color-ac));
+    color: var(--ta, var(--color-ac));
+    padding: 4px 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* big background numeral, like a page/issue number */
+  .ghost-num {
+    font-family: var(--font-display);
+    line-height: 0.8;
+    color: var(--color-tx);
+    opacity: 0.08;
+  }
+
+  /* oversized, slightly tilted pull-quote */
+  .pull {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.08;
+    transform: rotate(-1deg);
+  }
 }

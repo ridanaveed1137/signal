@@ -16,10 +16,9 @@ export default function Header() {
       <div className="mx-auto flex h-14 max-w-7xl items-center gap-5 px-5">
         <Link
           href="/"
-          className="font-serif text-xl font-bold tracking-[0.06em]"
-        >
-          SIGNAL
-        </Link>
+          className="font-display text-3xl tracking-[0.02em]" >
+  SIGNAL
+</Link>
 
         <span className="live mo text-ac">Live</span>
 

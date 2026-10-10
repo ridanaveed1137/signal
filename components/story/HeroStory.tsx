@@ -18,12 +18,18 @@ export default function HeroStory({ post }: { post: Post }) {
         </div>
       </div>
 
-      <p className="mo ta mt-5">
-        {labelFor(post)}
-        {post.curated && " · curated"}
-      </p>
+      <div className="mt-5 flex items-center gap-3">
+        <span className="stamp" style={{ "--ta": color } as React.CSSProperties}>
+          Issue · {new Date(post.created_at).getFullYear()}
+        </span>
+        <span className="mo ta">
+          {labelFor(post)}
+          {post.curated && " · curated"}
+        </span>
+      </div>
 
-      <h2 className="mt-2 max-w-[18ch] text-[clamp(38px,6.5vw,92px)] font-black leading-[0.92] tracking-[-0.03em]">
+
+      <h2 className="display mt-3 max-w-[20ch] text-[clamp(44px,7.5vw,104px)] font-black italic tracking-tight">
         {post.title}
       </h2>
 

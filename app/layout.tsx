@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import "@fontsource-variable/fraunces";
 import "@fontsource-variable/jetbrains-mono";
 import "@fontsource-variable/inter";
+import "@fontsource/bebas-neue";
+import "@fontsource-variable/caveat";
 import "./globals.css";
 
 const mono = JetBrains_Mono({
