@@ -45,3 +45,16 @@ export function safeUrl(u?: string | number | null) {
     return undefined;
   }
 }
+const VOICES = [
+  "font-display italic uppercase text-[26px] tracking-[0.01em]",
+  "font-serif italic font-black text-[24px]",
+  "font-display uppercase text-[24px] tracking-[0.02em]",
+  "font-mono font-bold uppercase text-[19px] tracking-tight",
+  "font-serif italic font-medium text-[26px]",
+];
+
+export function voiceFor(slug: string) {
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return VOICES[h % VOICES.length];
+}

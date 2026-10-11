@@ -21,7 +21,7 @@ export default async function PostFeed({
 
   return (
     <main className="mx-auto w-full max-w-7xl flex-1 px-5 py-10">
-      <h1 className="mb-8 font-mono text-3xl font-bold uppercase tracking-widest">
+        <h1 className="mb-8 font-display text-6xl tracking-[0.02em]">
         <SplitFlap text={heading.toUpperCase()} />
       </h1>
 

@@ -32,7 +32,7 @@ export default async function SearchPage({
 
   return (
     <main className="mx-auto w-full max-w-7xl flex-1 px-5 py-10">
-      <h1 className="mb-2 font-mono text-3xl font-bold uppercase tracking-widest">
+        <h1 className="mb-2 font-display text-6xl tracking-[0.02em]">
         <SplitFlap text="SEARCH" />
       </h1>
 

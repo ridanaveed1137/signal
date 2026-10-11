@@ -161,25 +161,59 @@ export default function Visual({
     );
   }
 
+    const filename =
+    kind === "packets" || kind === "http"
+      ? "capture.pcap"
+      : kind === "hex"
+      ? "sample.bin"
+      : kind === "hash"
+      ? "~/signal"
+      : kind === "code"
+      ? "package.json"
+      : kind === "prompt"
+      ? "chat.log"
+      : "~/signal";
+
   return (
     <div
-      className={`relative h-full w-full overflow-hidden font-mono ${
-        big
-          ? "p-6 text-[clamp(12px,1.4vw,18px)] leading-[1.8]"
-          : "p-4 text-[11px] leading-[1.7]"
-      }`}
+      className="relative flex h-full w-full flex-col overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, ${color}38, ${color}14 60%, #0a0b0c)`,
+        background: `linear-gradient(160deg, ${color}22, #0a0b0c 65%)`,
+        boxShadow: `inset 0 0 80px ${color}18`,
       }}
     >
-      <div className="mo flex justify-between">
-        <span style={{ color }}>{KIND_LABEL[kind]}</span>
-        <span>illustration</span>
+      {/* window chrome */}
+      <div
+        className="flex shrink-0 items-center gap-4 border-b px-4 py-2.5"
+        style={{ borderColor: `${color}30`, background: "#00000040" }}
+      >
+        <div className="flex gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#e0605f]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#e0b25f]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#6fc16a]" />
+        </div>
+        <span className="mo flex-1 truncate text-center" style={{ color }}>
+          {filename}
+        </span>
+        <span className="mo hidden shrink-0 sm:inline">illustration</span>
       </div>
 
-      <pre className="mt-4 overflow-hidden whitespace-pre text-tx/85">
-        {linesFor(kind, post).join("\n")}
-      </pre>
+      {/* body */}
+      <div
+        className={`flex-1 overflow-hidden font-mono ${
+          big
+            ? "p-6 text-[clamp(12px,1.4vw,18px)] leading-[1.8]"
+            : "p-4 text-[11px] leading-[1.7]"
+        }`}
+      >
+        <span className="mo" style={{ color }}>
+          {KIND_LABEL[kind]}
+        </span>
+
+        <pre className="mt-3 overflow-hidden whitespace-pre text-tx/85">
+          {linesFor(kind, post).join("\n")}
+        </pre>
+      </div>
     </div>
   );
 }

@@ -248,17 +248,29 @@ body {
 .cd:hover::before {
   animation: scan 1.2s linear;
 }
+.cd::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--ta, var(--color-ac));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.cd:hover::after {
+  transform: scaleX(1);
+}
 @keyframes scan {
   to {
     top: 100%;
   }
 }
 .cd h3 {
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.05;
-  margin: 8px 0;
-  text-transform: uppercase;
+  line-height: 0.95;
+  margin: 10px 0;
 }
 .cv {
   margin: -22px -22px 16px;

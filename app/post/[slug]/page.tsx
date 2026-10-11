@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import LicenseForm from "@/components/LicenseForm";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export const dynamic = "force-dynamic";
 
@@ -101,9 +103,9 @@ export default async function PostPage({
         </div>
       )}
 
-      {post.body && (
-        <div className="mt-8 whitespace-pre-wrap leading-relaxed text-tx">
-          {post.body}
+        {post.body && (
+        <div className="prose-signal mt-8">
+          <Markdown remarkPlugins={[remarkGfm]}>{post.body}</Markdown>
         </div>
       )}
 

@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase";
 import type { Post } from "@/lib/types";
 import SplitFlap from "@/components/SplitFlap";
 import Visual from "@/components/Visual";
-import { colorFor, labelFor } from "@/lib/editorial";
+import { colorFor, labelFor, voiceFor } from "@/lib/editorial";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +29,6 @@ export default async function ToolsPage() {
   const tools = (data ?? []) as Post[];
   const featured = tools.find((p) => p.featured) ?? tools[0];
 
-  // group the index by first letter, like a field manual
   const sorted = [...tools].sort((a, b) =>
     shortName(a).localeCompare(shortName(b))
   );
@@ -41,7 +40,7 @@ export default async function ToolsPage() {
 
   return (
     <main className="mx-auto w-full max-w-7xl flex-1 px-5 py-10">
-      <h1 className="font-mono text-3xl font-bold uppercase tracking-widest">
+      <h1 className="font-display text-6xl tracking-[0.02em]">
         <SplitFlap text="TOOLS" />
       </h1>
       <p className="mo mb-12 mt-2">
@@ -53,16 +52,16 @@ export default async function ToolsPage() {
       {featured && (
         <Link
           href={`/post/${featured.slug}`}
-          className="group mb-16 grid gap-8 md:grid-cols-12 md:gap-10"
+          className="group mb-20 grid gap-8 md:grid-cols-12 md:gap-10"
           style={{ "--ta": colorFor(featured) } as React.CSSProperties}
         >
           <div className="flex flex-col justify-end md:col-span-5">
             <p className="mo ta">Tool of the moment</p>
-            <h2 className="mt-3 font-mono text-[clamp(40px,6vw,88px)] font-semibold leading-none tracking-tight transition-colors group-hover:text-ac">
+            <h2 className="display mt-3 text-[clamp(56px,8vw,120px)] italic leading-[0.85] transition-colors group-hover:text-ac">
               {shortName(featured)}
             </h2>
             {featured.summary && (
-              <p className="mt-4 max-w-[40ch] text-lg text-mu">
+              <p className="mt-5 max-w-[40ch] text-lg text-mu">
                 {featured.summary}
               </p>
             )}
@@ -80,13 +79,13 @@ export default async function ToolsPage() {
         {[...groups.entries()].map(([letter, items]) => (
           <div
             key={letter}
-            className="grid gap-4 border-b border-ln py-8 md:grid-cols-12 md:gap-10"
+            className="grid gap-4 border-b border-ln py-10 md:grid-cols-12 md:gap-10"
           >
-            <div className="font-serif text-[clamp(48px,7vw,96px)] font-black leading-none text-tx/20 md:col-span-2">
+            <div className="font-display text-[clamp(60px,8vw,110px)] italic leading-none text-tx/15 md:col-span-2">
               {letter}
             </div>
 
-            <div className="md:col-span-10">
+            <div className="flex flex-col md:col-span-10">
               {items.map((p) => {
                 const meta = p.metadata ?? {};
                 const details = [
@@ -98,23 +97,25 @@ export default async function ToolsPage() {
                   <Link
                     key={p.id}
                     href={`/post/${p.slug}`}
-                    className="group grid gap-2 border-t border-ln py-4 first:border-t-0 md:grid-cols-[1fr_auto] md:items-baseline md:gap-8"
-                    style={{ "--ta": colorFor(p) } as React.CSSProperties}
+                    className="group border-t border-ln py-6 pl-6 transition-colors first:border-t-0 hover:bg-ch"
+                    style={{
+                      "--ta": colorFor(p),
+                      borderLeft: "3px solid transparent",
+                      marginLeft: "-1.5rem",
+                    } as React.CSSProperties}
                   >
-                    <div>
-                      <h3 className="font-mono text-2xl font-semibold transition-colors group-hover:text-ac">
-                        {shortName(p)}
-                      </h3>
-                      {p.summary && (
-                        <p className="mt-1 max-w-[60ch] text-mu">{p.summary}</p>
-                      )}
-                    </div>
-
-                    <p className="mo md:text-right">
-                      {details.join(" · ")}
-                      {details.length > 0 && " · "}
-                      <span className="ta">{labelFor(p)}</span>
+                    <p className="mo ta">
+                      {labelFor(p)}
+                      {details.length > 0 && ` · ${details.join(" · ")}`}
                     </p>
+                    <h3
+                    className={`${voiceFor(p.slug)} mt-1 leading-[0.95] transition-colors group-hover:text-ac`}
+                    >
+                      {shortName(p)}
+                    </h3>
+                    {p.summary && (
+                      <p className="mt-2 max-w-[62ch] text-mu">{p.summary}</p>
+                    )}
                   </Link>
                 );
               })}

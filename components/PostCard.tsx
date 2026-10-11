@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Visual from "@/components/Visual";
 import type { Post } from "@/lib/types";
-import { ago, colorFor, labelFor, readMinutes } from "@/lib/editorial";
+import { ago, colorFor, labelFor, readMinutes, voiceFor } from "@/lib/editorial";
 
 function isNew(iso: string) {
   return Date.now() - new Date(iso).getTime() < 48 * 3600 * 1000;
@@ -27,7 +27,7 @@ export default function PostCard({ post }: { post: Post }) {
         {isNew(post.created_at) && <span className="tag">New</span>}
       </span>
 
-      <h3>{post.title}</h3>
+      <h3 className={voiceFor(post.slug)}>{post.title}</h3>
 
       <div className="meta mo">
         <span>{post.author_name}</span>
