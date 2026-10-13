@@ -3,6 +3,8 @@ import PostCard from "@/components/PostCard";
 import SplitFlap from "@/components/SplitFlap";
 import FadeIn from "@/components/FadeIn";
 
+
+export const revalidate = 60;
 export default async function PostFeed({
   type,
   heading,

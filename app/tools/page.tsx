@@ -10,7 +10,7 @@ import Visual from "@/components/Visual";
 import FadeIn from "@/components/FadeIn";
 import { colorFor } from "@/lib/editorial";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const shortName = (p: Post) => p.title.split(":")[0].trim();
 

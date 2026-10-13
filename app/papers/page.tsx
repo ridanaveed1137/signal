@@ -4,7 +4,7 @@ import type { Post } from "@/lib/types";
 import SplitFlap from "@/components/SplitFlap";
 import { safeUrl, stamp } from "@/lib/editorial";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function PapersPage() {
   const { data, error } = await supabase

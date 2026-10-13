@@ -4,7 +4,7 @@ import LicenseForm from "@/components/LicenseForm";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 function hostOf(url: string) {
   try {

@@ -6,7 +6,7 @@ import { topicBySlug } from "@/lib/topics";
 import PostCard from "@/components/PostCard";
 import FadeIn from "@/components/FadeIn";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function TopicPage({
   params,

@@ -3,7 +3,7 @@ import PostCard from "@/components/PostCard";
 import SplitFlap from "@/components/SplitFlap";
 import FallingText from "@/components/FallingText";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function SearchPage({
   searchParams,

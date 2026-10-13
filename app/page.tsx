@@ -14,7 +14,7 @@ import BriefStory from "@/components/story/BriefStory";
 import ToolFeature from "@/components/story/ToolFeature";
 import ResearchFeature from "@/components/story/ResearchFeature";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const wrap = "mx-auto w-full max-w-7xl px-5";
 

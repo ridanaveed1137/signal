@@ -7,7 +7,7 @@ import CompactStory from "@/components/story/CompactStory";
 import BriefStory from "@/components/story/BriefStory";
 import FadeIn from "@/components/FadeIn";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const wrap = "";
 
