@@ -204,15 +204,21 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* more stories */}
+      {/* more stories, alternating sizes */}
       {more.length > 0 && (
         <section className="border-t border-ln">
           <div className={`${wrap} py-10`}>
-            <SectionHead title="More stories" />
+            <SectionHead title="More stories" aside={`${more.length} more`} />
             <div className="grid gap-x-10 md:grid-cols-2">
-              {more.map((p) => (
-                <CompactStory key={p.id} post={p} />
-              ))}
+              {more.map((p, i) =>
+                i % 3 === 0 ? (
+                  <div key={p.id} className="col-span-full">
+                    <CompactStory post={p} />
+                  </div>
+                ) : (
+                  <BriefStory key={p.id} post={p} />
+                )
+              )}
             </div>
           </div>
         </section>
