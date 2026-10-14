@@ -86,23 +86,27 @@ export default async function Home() {
 
   return (
     <main className="flex-1">
-      {/* masthead */}
-      <section className={`${wrap} flex flex-wrap items-end justify-between gap-6 py-8`}>
-        <div>
-          <span className="mo">[ Security publication / 2026 ]</span>
-          <TileFlap />
-        </div>
-        <div className="max-w-[40ch]">
-          <p className="text-mu">
-            Research, trends, tools and ideas from the people building and
-            breaking security.
-          </p>
-          <OpenSearchButton>Explore signals</OpenSearchButton>
-          <Link href="/submit" className="btn">
-            Publish research
-          </Link>
-        </div>
-      </section>
+      {/* masthead — fashion-editorial scale: huge type, lots of air, minimal chrome */}
+        <section className={`${wrap} flex flex-col gap-16 pb-20 pt-16 md:pt-28`}>
+          <span className="mo">Security publication · 2026</span>
+
+          <h1 className="font-display text-[clamp(64px,13vw,220px)] leading-[0.82] tracking-[-0.01em]">
+            SIGNAL
+          </h1>
+
+          <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
+            <p className="max-w-[46ch] text-xl text-mu md:text-2xl">
+              Research, trends, tools, and ideas from the people building
+              and breaking security.
+            </p>
+            <div className="flex gap-3">
+              <OpenSearchButton>Explore signals</OpenSearchButton>
+              <Link href="/submit" className="btn">
+                Publish research
+              </Link>
+            </div>
+          </div>
+        </section>
 
       {/* lead story + sidebar */}
       {lead ? (

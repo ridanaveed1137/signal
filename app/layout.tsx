@@ -4,6 +4,8 @@ import "@fontsource-variable/jetbrains-mono";
 import "@fontsource-variable/inter";
 import "@fontsource/bebas-neue";
 import "@fontsource-variable/caveat";
+import "@fontsource/instrument-serif";
+import "@fontsource-variable/bricolage-grotesque";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
