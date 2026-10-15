@@ -251,7 +251,7 @@ export default async function Home() {
       {/* publish */}
       <section className="border-t border-ln">
         <div className={`${wrap} py-10`}>
-          <h2 className="text-[clamp(26px,4vw,44px)] font-bold uppercase leading-[1.05]">
+          <h2 className="font-display text-[clamp(26px,4vw,44px)] font-bold uppercase leading-[1.05]">
             Publish what you find.
           </h2>
           <p className="mt-2 max-w-[60ch] text-mu">
