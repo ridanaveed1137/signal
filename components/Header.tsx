@@ -6,7 +6,7 @@ import Ticker from "@/components/Ticker";
 const links = [
   { href: "/trends", label: "Trends" },
   { href: "/tools", label: "Tools" },
-  { href: "/papers", label: "Papers" },
+  { href: "/ports", label: "Ports" },
   { href: "/projects", label: "Projects" },
 ];
 
