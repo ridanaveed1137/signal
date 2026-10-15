@@ -90,7 +90,7 @@ export default async function Home() {
         <section className={`${wrap} flex flex-col gap-16 pb-20 pt-16 md:pt-28`}>
           <span className="mo">Security publication · 2026</span>
 
-          <h1 className="font-display text-[clamp(56px,12vw,200px)] font-bold leading-[0.85] tracking-[-0.02em] text-tx">
+          <h1 className="font-display text-[clamp(64px,13vw,220px)] leading-[0.82] tracking-[-0.01em]">
             SIGNAL
           </h1>
 
