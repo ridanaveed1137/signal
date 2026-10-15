@@ -58,10 +58,10 @@ export default function Cover({
       aria-hidden="true"
     >
       <defs>
-        <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor={color} stopOpacity="0.38" />
-          <stop offset="1" stopColor={color} stopOpacity="0.12" />
-        </linearGradient>
+       <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stopColor={color} stopOpacity="0.07" />
+  <stop offset="1" stopColor="#19160f" stopOpacity="0.03" />
+</linearGradient>
       </defs>
 
       <rect width={W} height={H} fill={`url(#${gid})`} />
@@ -88,7 +88,7 @@ export default function Cover({
             y={H - 30 - h}
             width={step * 0.6}
             height={h}
-            fill={color}
+            fill={"#19160f"}
             fillOpacity="0.45"
           />
         ))
@@ -103,7 +103,7 @@ export default function Cover({
                 y1={p.y}
                 x2={q.x}
                 y2={q.y}
-                stroke={color}
+                stroke={"#19160f"}
                 strokeOpacity="0.5"
               />
             );
