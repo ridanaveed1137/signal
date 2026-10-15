@@ -13,6 +13,7 @@ type Kind =
   | "prompt"
   | "terminal"
   | "network";
+  | "whimsical";
 
 const KIND_LABEL: Record<string, string> = {
   scan: "terminal",
@@ -36,6 +37,7 @@ export function kindFor(p: Post): Kind {
   const t = tokens(p);
   const has = (...w: string[]) => w.some((x) => t.has(x));
 
+  if (has("cryptography", "zero-trust")) return "whimsical";
   if (has("ransomware")) return "network";
   if (has("nmap", "recon")) return "scan";
   if (has("wireshark", "pcap", "suricata", "zeek", "packet")) return "packets";
@@ -158,6 +160,30 @@ export default function Visual({
         label={labelFor(post)}
         shape={shape}
       />
+    );
+  }
+    if (kind === "whimsical") {
+    const words: Record<string, string> = {
+      cryptography: "unravel",
+      "zero-trust": "verify",
+    };
+    const word = words[post.topic ?? ""] ?? "signal";
+
+    return (
+      <div
+        className="relative flex h-full w-full items-center justify-center overflow-hidden"
+        style={{ background: `linear-gradient(135deg, ${color}33, #0a0b0c 70%)` }}
+      >
+        <span className="mo absolute left-4 top-4 text-tx/40">illustration</span>
+        <span className="absolute left-6 top-10 text-lg text-[#f5e6a3]">✦</span>
+        <span className="absolute bottom-10 right-8 text-sm text-[#f5e6a3]">✦</span>
+        <p
+          className="font-script px-6 text-center text-[clamp(40px,8vw,90px)] text-[#f5e6a3]"
+          style={{ lineHeight: 0.9 }}
+        >
+          {word}
+        </p>
+      </div>
     );
   }
 
