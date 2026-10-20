@@ -29,8 +29,7 @@ export default function HeroStory({ post }: { post: Post }) {
       </div>
 
 
-      <h2 className="display mt-3 max-w-[20ch] text-[clamp(44px,7.5vw,104px)] font-black italic tracking-tight">
-        {post.title}
+      <h2 className="display mt-3 max-w-[20ch] text-[clamp(30px,7.5vw,104px)] font-black italic tracking-tight [overflow-wrap:anywhere]">
       </h2>
 
       {post.summary && (

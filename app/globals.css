@@ -17,7 +17,11 @@
   --font-display: "Unbounded Variable", "Bricolage Grotesque Variable", sans-serif;
   --font-script: "Caveat Variable", cursive;
 }
-
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
 html {
   color-scheme: dark;
   scroll-padding-top: 70px;
@@ -338,7 +342,45 @@ body {
     font-family: var(--font-serif);
   }
 }
+html { scroll-behavior: smooth; }
+.prose-signal h2 { scroll-margin-top: 8rem; }
 /* markdown body */
+.prose-signal {
+  max-width: 65ch;
+  font-family: "Fraunces Variable", Georgia, serif;
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+/* drop cap: only when the body opens with a paragraph */
+.prose-signal > p:first-child::first-letter {
+  float: left;
+  font-size: 4.5rem;
+  line-height: 0.8;
+  font-weight: 700;
+  padding: 0.35rem 0.6rem 0 0;
+  color: var(--ac);
+}
+.prose-signal > h2:first-child + p::first-letter {
+  float: left;
+  font-size: 4.5rem;
+  line-height: 0.8;
+  font-weight: 700;
+  padding: 0.35rem 0.6rem 0 0;
+  color: var(--ac);
+}
+
+/* blockquote becomes a pull quote */
+.prose-signal blockquote {
+  margin: 2.5rem 0;
+  padding: 1.25rem 0;
+  border-top: 2px solid var(--ac);
+  border-bottom: 1px solid var(--ac);
+  font-size: 1.6rem;
+  font-style: italic;
+  line-height: 1.3;
+}
+.prose-signal blockquote p { margin: 0; }
 .prose-signal {
   color: var(--color-tx);
   line-height: 1.75;
@@ -347,6 +389,52 @@ body {
 .prose-signal h2 {
   margin: 2em 0 0.6em;
   font-size: clamp(22px, 3vw, 32px);
+}
+.prose-signal h2 {
+  margin: 3rem 0 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ln);
+  font-size: 2rem;
+  letter-spacing: 0.02em;
+}
+
+.prose-signal h3 {
+  margin: 2rem 0 0.75rem;
+  font-size: 1.35rem;
+  color: var(--ac);
+}
+
+.prose-signal pre {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  overflow-x: auto;
+  border: 1px solid var(--ln);
+  border-left: 3px solid var(--ac);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.prose-signal :not(pre) > code {
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--ln);
+  font-size: 0.9em;
+  color: var(--ac);
+}
+
+.prose-signal table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.prose-signal th {
+  text-align: left;
+  border-bottom: 2px solid var(--ac);
+  padding: 0.5rem;
+}
+.prose-signal td {
+  border-bottom: 1px solid var(--ln);
+  padding: 0.5rem;
 }
 .prose-signal h3 {
   margin: 1.8em 0 0.5em;
@@ -448,4 +536,7 @@ body {
     line-height: 1.08;
     transform: rotate(-1deg);
   }
+}
+.hv {
+  font-family: "Inter Variable", system-ui, sans-serif;
 }

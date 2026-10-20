@@ -60,12 +60,12 @@ export default async function ToolsPage() {
       {spotlight && (
         <Link
           href={`/post/${spotlight.slug}`}
-          className="group mb-14 grid gap-8 border-b border-ln pb-14 md:grid-cols-12 md:gap-10"
+          className="group grid grid-cols-1 gap-8 pb-14 md:grid-cols-12 md:gap-10"
           style={{ "--ta": colorFor(spotlight) } as React.CSSProperties}
         >
-          <div className="flex flex-col justify-end md:col-span-5">
+          <div className="flex min-w-0 flex-col justify-end md:col-span-5">
             <p className="mo ta">Tool of the moment</p>
-            <h2 className="display mt-3 text-[clamp(56px,8vw,120px)] italic leading-[0.85] transition-colors group-hover:text-ac">
+            <h2 className="display mt-3 text-[clamp(44px,8vw,120px)] italic leading-[0.85] transition-colors [overflow-wrap:anywhere] group-hover:text-ac">
               {shortName(spotlight)}
             </h2>
             {spotlight.summary && (
@@ -75,7 +75,7 @@ export default async function ToolsPage() {
             )}
           </div>
 
-          <div className="aspect-[16/9] overflow-hidden border border-ln md:col-span-7">
+          <div className="aspect-[16/9] min-w-0 overflow-hidden border border-ln md:col-span-7">
             <div className="h-full w-full transition-transform duration-700 group-hover:scale-[1.03] [&>svg]:block [&>svg]:h-full [&>svg]:w-full">
               <Visual post={spotlight} big />
             </div>
@@ -86,13 +86,13 @@ export default async function ToolsPage() {
       {/* lead + sidebar */}
       {lead && (
         <section className="border-t border-ln">
-          <div className="grid gap-10 py-10 lg:grid-cols-12">
-            <div className="lg:col-span-8">
+          <div className="grid grid-cols-1 gap-10 py-10 lg:grid-cols-12">
+            <div className="min-w-0 lg:col-span-8">
               <HeroStory post={lead} />
             </div>
 
             {side.length > 0 && (
-              <aside className="lg:col-span-4">
+              <aside className="min-w-0 lg:col-span-4">
                 <p className="mo mb-1">Also in the field manual</p>
                 {side.map((p) => (
                   <CompactStory key={p.id} post={p} />

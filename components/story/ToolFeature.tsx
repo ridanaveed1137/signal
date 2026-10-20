@@ -25,7 +25,7 @@ export default function ToolFeature({ post }: { post: Post }) {
   return (
     <Link
       href={`/post/${post.slug}`}
-      className="group grid gap-8 md:grid-cols-12 md:gap-10"
+      className="group grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-10"
       style={{ "--ta": color } as React.CSSProperties}
     >
       <div className="md:col-span-5">
@@ -42,9 +42,9 @@ export default function ToolFeature({ post }: { post: Post }) {
         </div>
 
         {rows.map(([k, v]) => (
-          <div key={k} className="grid grid-cols-[88px_1fr] gap-3">
+          <div key={k} className="grid grid-cols-[88px_minmax(0,1fr)] gap-3">
             <span className="ta">{k}</span>
-            <span className="text-tx">{v}</span>
+            <span className="text-tx break-words">{v}</span>
           </div>
         ))}
       </div>

@@ -12,7 +12,7 @@ type Kind =
   | "code"
   | "prompt"
   | "terminal"
-  | "network";
+  | "network"
   | "whimsical";
 
 const KIND_LABEL: Record<string, string> = {
