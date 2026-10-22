@@ -540,3 +540,15 @@ html { scroll-behavior: smooth; }
 .hv {
   font-family: "Inter Variable", system-ui, sans-serif;
 }
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(40%);
+    filter: blur(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}

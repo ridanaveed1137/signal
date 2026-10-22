@@ -11,7 +11,9 @@ import RotatingBadge from "@/components/RotatingBadge";
 import PortraitCard from "@/components/story/PortraitCard";
 import PillRow from "@/components/story/PillRow";
 import ToolFeature from "@/components/story/ToolFeature";
-import { labelFor, readMinutes, stamp } from "@/lib/editorial";
+import { colorFor, labelFor, readMinutes, stamp } from "@/lib/editorial";
+import ArchiveList from "@/components/ArchiveList";
+import HomeMasthead from "@/components/HomeMasthead";
 
 const wrap = "mx-auto w-full max-w-7xl px-5";
 
@@ -70,29 +72,17 @@ export default async function HomePage() {
 
   return (
     <main className="flex-1 overflow-x-clip">
-      {/* tiny top row */}
-      <div className={`${wrap} mo flex items-center justify-between pt-5`}>
-        <span>(Signal)</span>
-        <span className="hidden sm:inline">
-          Vol. 01 · Issue {String(list.length).padStart(3, "0")}
-        </span>
-        <span>
-          {new Date()
-            .toLocaleDateString("en-GB", {
-              day: "2-digit",
-              month: "long",
-              year: "numeric",
-            })
-            .toUpperCase()}
-        </span>
-      </div>
-
-      {/* giant wordmark */}
-      <section className="px-3 pt-4 sm:px-5">
-        <h1 className="font-display whitespace-nowrap text-center text-[21vw] leading-[0.8] tracking-[-0.02em]">
-          SIGNAL
-        </h1>
-      </section>
+            <HomeMasthead
+        issue={String(list.length).padStart(3, "0")}
+        posts={list.length}
+        date={new Date()
+          .toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          })
+          .toUpperCase()}
+      />
 
       {/* intro row */}
       <section
@@ -216,7 +206,13 @@ export default async function HomePage() {
       {tool && (
         <section className="border-t border-paper/30">
           <div className={`${wrap} py-14`}>
-            <SectionHead title="Tool of the moment" index="03" />
+            <div className="mb-8 flex items-end justify-between gap-3 border-b border-paper/30 pb-3">
+              <h2 className="font-display text-[clamp(28px,4.2vw,64px)] uppercase leading-[0.85]">
+                <sup className="mo mr-3 align-top">(03)</sup>
+                Tool of the moment
+              </h2>
+              <span className="mo">(Field manual)</span>
+            </div>
             <ToolFeature post={tool} />
           </div>
         </section>
@@ -231,11 +227,18 @@ export default async function HomePage() {
               index="04"
               aside={`${archive.length} more`}
             />
-            <div className="flex flex-col gap-3">
-              {archive.map((p, i) => (
-                <PillRow key={p.id} post={p} index={i + 1} />
-              ))}
-            </div>
+ <ArchiveList
+  items={archive.map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    summary: p.summary ?? "",
+    label: labelFor(p),
+    color: colorFor(p),
+    minutes: readMinutes(p.body),
+    date: stamp(p.created_at),
+  }))}
+/>
           </div>
         </section>
       )}
