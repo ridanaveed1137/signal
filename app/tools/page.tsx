@@ -1,28 +1,42 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import type { Post } from "@/lib/types";
-import SplitFlap from "@/components/SplitFlap";
-import HeroStory from "@/components/story/HeroStory";
-import FeatureStory from "@/components/story/FeatureStory";
-import CompactStory from "@/components/story/CompactStory";
-import BriefStory from "@/components/story/BriefStory";
-import Visual from "@/components/Visual";
-import FadeIn from "@/components/FadeIn";
-import { colorFor } from "@/lib/editorial";
+import ToolShelf from "@/components/ToolShelf";
+import { colorFor, labelFor } from "@/lib/editorial";
 
 export const revalidate = 60;
 
-const shortName = (p: Post) => p.title.split(":")[0].trim();
+const wrap = "mx-auto w-full max-w-7xl px-5";
 
-function SectionHead({ title, aside }: { title: string; aside?: string }) {
-  return (
-    <div className="mb-6 flex items-baseline justify-between gap-3">
-      <h2 className="text-[clamp(26px,4vw,44px)] font-bold uppercase leading-[1.05]">
-        {title}
-      </h2>
-      {aside && <span className="mo">{aside}</span>}
-    </div>
-  );
+function host(u?: string | number | null) {
+  try {
+    return new URL(String(u)).hostname.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
+}
+
+// pull labeled commands out of the code blocks in an entry's body
+function commandsOf(body?: string | null) {
+  const out: { label: string; cmd: string }[] = [];
+  if (!body) return { list: out, total: 0 };
+
+  const re = /```[^\n]*\r?\n([\s\S]*?)```/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(body))) {
+    let label = "";
+    for (const raw of m[1].split(/\r?\n/)) {
+      const line = raw.trim();
+      if (!line) continue;
+      if (line.startsWith("#")) {
+        label = line.replace(/^#+\s*/, "");
+        continue;
+      }
+      out.push({ label, cmd: line.slice(0, 120) });
+      label = "";
+    }
+  }
+  return { list: out.slice(0, 6), total: out.length };
 }
 
 export default async function ToolsPage() {
@@ -35,100 +49,131 @@ export default async function ToolsPage() {
 
   if (error) console.log(error);
 
-  const tools = (data ?? []) as Post[];
+  const list = (data ?? []) as Post[];
 
-  const spotlight = tools[0];
-  const rest = tools.slice(1);
+  const tools = list.map((p) => {
+    const meta = p.metadata ?? {};
+    const { list: commands, total } = commandsOf(p.body);
+    return {
+      id: p.id,
+      slug: p.slug,
+      name: p.title.split(":")[0].trim(),
+      summary: p.summary ?? "",
+      label: labelFor(p),
+      color: colorFor(p),
+      license: String(meta.license ?? ""),
+      source: host(p.source_url) || host(meta.repo),
+      commands,
+      total,
+    };
+  });
 
-  const lead = rest[0];
-  const side = rest.slice(1, 4);
-  const briefs = rest.slice(4, 8);
-  const features = rest.slice(8);
+  const typed = (
+    n: number,
+    delay: number,
+    text: string,
+    cls = "text-tx"
+  ) => (
+    <p
+      className={`typed ${cls}`}
+      style={
+        {
+          "--n": n,
+          animationDelay: `${delay}s`,
+        } as React.CSSProperties
+      }
+    >
+      {text}
+    </p>
+  );
 
   return (
-    <main className="mx-auto w-full max-w-7xl flex-1 px-5 py-10">
-      <h1 className="font-display text-6xl tracking-[0.02em]">
-        <SplitFlap text="TOOLS" />
-      </h1>
-      <p className="mo mb-12 mt-2">
-        Field manual · {tools.length} {tools.length === 1 ? "entry" : "entries"}
-      </p>
+    <main className="flex-1 overflow-x-clip">
+      {/* manual hero */}
+      <section className={`${wrap} pb-10 pt-8`}>
+        <div className="mo flex items-center justify-between">
+          <span className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ac opacity-75 motion-reduce:animate-none" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-ac" />
+            </span>
+            (Field manual)
+          </span>
+          <span className="hidden sm:inline">TOOLS(1)</span>
+          <span>
+            {tools.length} {tools.length === 1 ? "entry" : "entries"}
+          </span>
+        </div>
 
-      {tools.length === 0 && <p className="text-mu">Nothing here yet.</p>}
+        <h1 className="mt-8 font-mono text-[clamp(72px,17vw,280px)] font-bold uppercase leading-[0.85] tracking-tight">
+          Tools
+          <span className="ml-[0.04em] animate-[blink_1s_step-end_infinite] text-ac motion-reduce:animate-none">
+            _
+          </span>
+        </h1>
 
-      {/* standalone spotlight, tool-specific, not a story component */}
-      {spotlight && (
+        {/* terminal */}
+        <div className="mt-10 max-w-3xl border border-ln bg-ch font-mono text-[11px] sm:text-sm">
+          <div className="flex items-center gap-2 border-b border-ln px-4 py-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f56]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#27c93f]" />
+            <span className="mo ml-3">~/signal/tools</span>
+          </div>
+          <div className="space-y-2 p-4 leading-relaxed">
+            {typed(18, 0.4, "$ man signal-tools")}
+            {typed(
+              43,
+              1.4,
+              "NAME   open-source security tools, explained",
+              "text-mu"
+            )}
+            {typed(
+              50,
+              2.6,
+              "TRY    pick a tool, copy a command, read the entry",
+              "text-mu"
+            )}
+            <p className="text-tx">
+              <span className="text-ac">$</span>{" "}
+              <span className="inline-block h-[1em] w-[0.6ch] translate-y-[2px] animate-[blink_1s_step-end_infinite] bg-tx motion-reduce:animate-none" />
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {tools.length === 0 && (
+        <section className={`${wrap} pb-20`}>
+          <p className="text-mu">Nothing here yet.</p>
+        </section>
+      )}
+
+      {/* shelf */}
+      {tools.length > 0 && (
+        <section className="border-t border-paper/30">
+          <div className={`${wrap} py-14`}>
+            <ToolShelf tools={tools} />
+          </div>
+        </section>
+      )}
+
+      {/* submit */}
+      <section className={`${wrap} py-20 text-center`}>
+        <p className="mo">(Contribute)</p>
+        <h2 className="font-display mt-3 text-[clamp(32px,7vw,100px)] uppercase leading-[0.9]">
+          Know a tool we missed?
+        </h2>
+        <p className="mx-auto mt-4 max-w-[50ch] text-mu">
+          Write up a tool in plain language. An editor reviews it and approved
+          work goes public with your name and timestamp.
+        </p>
         <Link
-          href={`/post/${spotlight.slug}`}
-          className="group grid grid-cols-1 gap-8 pb-14 md:grid-cols-12 md:gap-10"
-          style={{ "--ta": colorFor(spotlight) } as React.CSSProperties}
+          href="/submit"
+          className="mt-8 inline-flex items-center rounded-full bg-paper px-8 py-4 font-mono text-xs uppercase tracking-widest text-ink hover:opacity-80"
         >
-          <div className="flex min-w-0 flex-col justify-end md:col-span-5">
-            <p className="mo ta">Tool of the moment</p>
-            <h2 className="display mt-3 text-[clamp(44px,8vw,120px)] italic leading-[0.85] transition-colors [overflow-wrap:anywhere] group-hover:text-ac">
-              {shortName(spotlight)}
-            </h2>
-            {spotlight.summary && (
-              <p className="mt-5 max-w-[40ch] text-lg text-mu">
-                {spotlight.summary}
-              </p>
-            )}
-          </div>
-
-          <div className="aspect-[16/9] min-w-0 overflow-hidden border border-ln md:col-span-7">
-            <div className="h-full w-full transition-transform duration-700 group-hover:scale-[1.03] [&>svg]:block [&>svg]:h-full [&>svg]:w-full">
-              <Visual post={spotlight} big />
-            </div>
-          </div>
+          Submit a post ↗
         </Link>
-      )}
-
-      {/* lead + sidebar */}
-      {lead && (
-        <section className="border-t border-ln">
-          <div className="grid grid-cols-1 gap-10 py-10 lg:grid-cols-12">
-            <div className="min-w-0 lg:col-span-8">
-              <HeroStory post={lead} />
-            </div>
-
-            {side.length > 0 && (
-              <aside className="min-w-0 lg:col-span-4">
-                <p className="mo mb-1">Also in the field manual</p>
-                {side.map((p) => (
-                  <CompactStory key={p.id} post={p} />
-                ))}
-              </aside>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* dense briefs */}
-      {briefs.length > 0 && (
-        <section className="border-t border-ln">
-          <div className="py-10">
-            <SectionHead title="More tools" aside="In brief" />
-            <div className="columns-1 gap-10 sm:columns-2 lg:columns-3">
-              {briefs.map((p) => (
-                <BriefStory key={p.id} post={p} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* alternating features */}
-      {features.length > 0 && (
-        <section className="border-t border-ln">
-          <div className="flex flex-col gap-20 py-14">
-            {features.map((p, i) => (
-              <FadeIn key={p.id}>
-                <FeatureStory post={p} flip={i % 2 === 1} />
-              </FadeIn>
-            ))}
-          </div>
-        </section>
-      )}
+      </section>
     </main>
   );
 }
