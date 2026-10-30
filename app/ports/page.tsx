@@ -1,56 +1,74 @@
+import Link from "next/link";
 import { PORTS } from "@/lib/ports";
-import SplitFlap from "@/components/SplitFlap";
+import PortConsole from "@/components/PortConsole";
 
 export const revalidate = false;
 
-const RISK_COLOR: Record<string, string> = {
-  high: "#ff3b30",
-  medium: "#e5a53b",
-  low: "#4a9d6e",
-};
+type Risk = "high" | "medium" | "low";
 
-function riskFor(note: string): keyof typeof RISK_COLOR {
+function riskFor(note: string): Risk {
   const n = note.toLowerCase();
-  if (n.includes("should not") || n.includes("never") || n.includes("ransomware") || n.includes("compromise") || n.includes("no auth")) return "high";
-  if (n.includes("legacy") || n.includes("plaintext") || n.includes("weak")) return "medium";
+  if (
+    n.includes("should not") ||
+    n.includes("never") ||
+    n.includes("ransomware") ||
+    n.includes("compromise") ||
+    n.includes("no auth")
+  )
+    return "high";
+  if (n.includes("legacy") || n.includes("plaintext") || n.includes("weak"))
+    return "medium";
   return "low";
 }
 
+const wrap = "mx-auto w-full max-w-7xl px-5";
+
 export default function PortsPage() {
+  const ports = PORTS.map((p) => ({
+    number: Number(p.number),
+    name: String(p.name),
+    protocol: String(p.protocol),
+    note: String(p.note),
+    risk: riskFor(String(p.note)),
+  })).filter((p) => Number.isFinite(p.number));
+
   return (
-    <main className="mx-auto w-full max-w-4xl flex-1 px-5 py-10">
-      <h1 className="font-display text-6xl tracking-[0.02em]">
-        <SplitFlap text="PORTS" />
-      </h1>
-      <p className="mo mb-16 mt-2">The lookbook · {PORTS.length} looks</p>
+    <main className="flex-1 overflow-x-clip">
+      <section className={`${wrap} pb-8 pt-8`}>
+        <div className="mo flex items-center justify-between">
+          <span className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ac opacity-75 motion-reduce:animate-none" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-ac" />
+            </span>
+            (Port reference)
+          </span>
+          <span>{ports.length} ports catalogued</span>
+        </div>
 
-      <div className="flex flex-col">
-        {PORTS.map((p, i) => {
-          const risk = riskFor(p.note);
-          const color = RISK_COLOR[risk];
+        <h1 className="font-display mt-8 text-[clamp(40px,8vw,128px)] uppercase leading-[0.9] tracking-[-0.02em]">
+          Which port is that?
+        </h1>
+      </section>
 
-          return (
-            <div
-              key={p.number}
-              className="border-t border-ln py-10 first:border-t-0"
-              style={{ "--ta": color } as React.CSSProperties}
-            >
-              <p className="mo ta">Look {String(i + 1).padStart(3, "0")}</p>
+      <PortConsole ports={ports} />
 
-              <p className="font-display mt-1 text-[clamp(40px,10vw,72px)] leading-[1]">
-                {p.number}
-              </p>
-
-              <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <p className="font-display text-xl">{p.name}</p>
-                <span className="mo ta">{p.protocol}</span>
-              </div>
-
-              <p className="mt-2 max-w-[60ch] text-mu">{p.note}</p>
-            </div>
-          );
-        })}
-      </div>
+      <section className={`${wrap} py-20 text-center`}>
+        <p className="mo">(Contribute)</p>
+        <h2 className="font-display mt-3 text-[clamp(32px,7vw,100px)] uppercase leading-[0.9]">
+          Missing a port?
+        </h2>
+        <p className="mx-auto mt-4 max-w-[50ch] text-mu">
+          Tell the community what runs where. An editor reviews it and approved
+          work goes public with your name and timestamp.
+        </p>
+        <Link
+          href="/submit"
+          className="mt-8 inline-flex items-center rounded-full bg-paper px-8 py-4 font-mono text-xs uppercase tracking-widest text-ink hover:opacity-80"
+        >
+          Submit a post ↗
+        </Link>
+      </section>
     </main>
   );
 }
