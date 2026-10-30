@@ -131,7 +131,6 @@ export default function SubmitPage() {
         >
           <option value="trend" className={optClass}>Trend</option>
           <option value="tool" className={optClass}>Tool</option>
-          <option value="paper" className={optClass}>Research paper</option>
           <option value="project" className={optClass}>Project</option>
         </select>
 
