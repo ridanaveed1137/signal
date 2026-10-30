@@ -552,3 +552,29 @@ html { scroll-behavior: smooth; }
     filter: blur(0);
   }
 }
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: calc(var(--n) * 1ch);
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.typed {
+  display: block;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing calc(var(--n) * 0.045s) steps(var(--n), end) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .typed {
+    width: auto;
+    animation: none;
+  }
+}
