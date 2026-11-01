@@ -3,6 +3,12 @@ import { supabase } from "@/lib/supabase";
 import type { Post } from "@/lib/types";
 import ToolShelf from "@/components/ToolShelf";
 import { colorFor, labelFor } from "@/lib/editorial";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tools · Signal",
+  description: "Open-source security tools, explained in plain language.",
+};
 
 export const revalidate = 60;
 

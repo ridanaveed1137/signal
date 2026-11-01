@@ -53,6 +53,26 @@ function headingsOf(body: string) {
 
 export default async function PostPage({
   params,
+  export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+
+  const { data: post } = await supabase
+    .from("posts")
+    .select("title, summary")
+    .eq("slug", slug)
+    .single();
+
+  if (!post) return { title: "Not found · Signal" };
+
+  return {
+    title: `${post.title} · Signal`,
+    description: post.summary ?? undefined,
+  };
+}
 }: {
   params: Promise<{ slug: string }>;
 }) {

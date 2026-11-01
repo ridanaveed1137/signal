@@ -4,7 +4,12 @@ import type { Post } from "@/lib/types";
 import CountUp from "@/components/CountUp";
 import ArchiveList from "@/components/ArchiveList";
 import { colorFor, labelFor, readMinutes } from "@/lib/editorial";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Projects · Signal",
+  description: "Tools, labs and experiments from the Signal community.",
+};
 export const revalidate = 60;
 
 const wrap = "mx-auto w-full max-w-7xl px-5";

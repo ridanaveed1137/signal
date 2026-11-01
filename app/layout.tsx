@@ -17,6 +17,12 @@ export const metadata: Metadata = {
   title: "Signal",
   description:
     "Signal: trends, tools, research, and projects from the cybersecurity community.",
+  // served from public/site-icon.png
+  icons: {
+    icon: [{ url: "/site-icon.png", type: "image/png", sizes: "512x512" }],
+    shortcut: "/site-icon.png",
+    apple: "/site-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

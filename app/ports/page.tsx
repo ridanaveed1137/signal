@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { PORTS } from "@/lib/ports";
 import PortConsole from "@/components/PortConsole";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Ports · Signal",
+  description: "A field reference for common network ports and their risks.",
+};
 export const revalidate = false;
 
 type Risk = "high" | "medium" | "low";

@@ -7,6 +7,12 @@ import CountUp from "@/components/CountUp";
 import HeatBars from "@/components/HeatBars";
 import LiveFeed, { type LiveItem } from "@/components/LiveFeed";
 import { colorFor, labelFor, readMinutes } from "@/lib/editorial";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Trends · Signal",
+  description: "What is changing in security — live, curated, updated hourly.",
+};
 
 export const revalidate = 600;
 
