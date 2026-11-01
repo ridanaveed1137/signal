@@ -2,12 +2,11 @@
 import { useEffect, useState } from "react";
 
 export default function HomeMasthead({
-  issue,
-  posts,
   date,
 }: {
-  issue: string;
-  posts: number;
+  // issue / posts are still passed by HomePage but no longer shown
+  issue?: string;
+  posts?: number;
   date: string;
 }) {
   const [time, setTime] = useState("--:--:--");
@@ -36,9 +35,6 @@ export default function HomeMasthead({
             <span className="relative inline-flex h-2 w-2 rounded-full bg-ac" />
           </span>
           (Signal)
-        </span>
-        <span className="hidden sm:inline">
-          Vol. 01 · Issue {issue} · {posts} posts indexed
         </span>
         <span>
           {date} · <span className="tabular-nums">{time}</span>

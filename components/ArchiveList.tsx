@@ -65,10 +65,6 @@ export default function ArchiveList({ items }: { items: Item[] }) {
     <div>
       <div className="mb-6 flex flex-wrap gap-2">
         {["All", ...labels].map((l) => {
-          const n =
-            l === "All"
-              ? items.length
-              : items.filter((i) => i.label === l).length;
           const on = active === l;
           return (
             <button
@@ -81,7 +77,7 @@ export default function ArchiveList({ items }: { items: Item[] }) {
                   : "border-paper/30 hover:border-paper"
               }`}
             >
-              {l} ({n})
+              {l}
             </button>
           );
         })}

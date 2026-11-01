@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type LiveItem = {
   cve: string;
@@ -40,7 +40,7 @@ const MONTHS = [
 ];
 
 // true when CISA added the entry within the last few days.
-// Worked out in the visitor's browser so it never goes stale; no date is shown.
+// Worked out in the visitor's browser so it never goes stale.
 function isNew(day: string, year: string, now: number) {
   const [d, m] = day.split(" ");
   const added = Date.UTC(Number(year), MONTHS.indexOf(m), Number(d));
@@ -48,16 +48,19 @@ function isNew(day: string, year: string, now: number) {
   return !Number.isNaN(n) && n <= 3;
 }
 
-// stable accent color per vendor
+// stable accent colour per vendor (ransomware-linked entries are red)
 const hue = (s: string) => {
   let h = 0;
   for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0;
   return PALETTE[h % PALETTE.length];
 };
 
+// One horizontal strip of connected cells, like a weekly schedule board.
+// Swipe / drag / shift-scroll, or use the arrows to step left and right.
 export default function LiveFeed({ items }: { items: LiveItem[] }) {
-  const [only, setOnly] = useState<"all" | "ransom">("all");
-  const [visible, setVisible] = useState(5);
+  const track = useRef<HTMLDivElement>(null);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(true);
   const [now, setNow] = useState<number | null>(null);
 
   useEffect(() => {
@@ -66,47 +69,66 @@ export default function LiveFeed({ items }: { items: LiveItem[] }) {
     return () => clearInterval(id);
   }, []);
 
-  const pool = only === "all" ? items : items.filter((i) => i.ransomware);
-  const shown = pool.slice(0, visible);
+  const sync = useCallback(() => {
+    const el = track.current;
+    if (!el) return;
+    setCanPrev(el.scrollLeft > 4);
+    setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    sync();
+    const el = track.current;
+    if (!el) return;
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [sync, items.length]);
+
+  const go = (dir: 1 | -1) => {
+    const el = track.current;
+    if (!el) return;
+    // step by about one screenful of cards
+    el.scrollBy({ left: dir * el.clientWidth * 0.85, behavior: "smooth" });
+  };
+
+  const arrow =
+    "flex h-12 w-12 items-center justify-center rounded-full border border-paper/40 text-xl leading-none transition-colors hover:border-paper hover:bg-paper hover:text-ink disabled:pointer-events-none disabled:opacity-25";
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-2">
-          {(
-            [
-              ["all", `All (${items.length})`],
-              [
-                "ransom",
-                `Ransomware-linked (${items.filter((i) => i.ransomware).length})`,
-              ],
-            ] as const
-          ).map(([k, label]) => (
-            <button
-              key={k}
-              type="button"
-              onClick={() => {
-                setOnly(k);
-                setVisible(5);
-              }}
-              className={`mo rounded-full border px-4 py-2 transition-colors ${
-                only === k
-                  ? "border-paper bg-paper text-ink"
-                  : "border-paper/30 hover:border-paper"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+      <div className="mb-5 flex items-center justify-end gap-4">
+        <div className="flex gap-2">
+          <button
+            type="button"
+            aria-label="Previous entries"
+            onClick={() => go(-1)}
+            disabled={!canPrev}
+            className={arrow}
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            aria-label="Next entries"
+            onClick={() => go(1)}
+            disabled={!canNext}
+            className={arrow}
+          >
+            →
+          </button>
         </div>
-        <p className="mo">
-          Showing {shown.length} of {pool.length}
-        </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {shown.map((i, idx) => {
-          const feature = idx === 0;
+      <div
+        ref={track}
+        onScroll={sync}
+        tabIndex={0}
+        aria-label="Live feed of exploited vulnerabilities"
+        className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth border border-paper/30 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {items.map((i) => {
+          const fresh = now !== null && isNew(i.day, i.year, now);
           const color = i.ransomware ? "#ff3b30" : hue(i.vendor);
 
           return (
@@ -115,95 +137,55 @@ export default function LiveFeed({ items }: { items: LiveItem[] }) {
               href={`https://nvd.nist.gov/vuln/detail/${i.cve}`}
               target="_blank"
               rel="noopener noreferrer"
-              className={`group relative flex flex-col justify-between overflow-hidden border border-ln bg-ch transition-all duration-300 hover:-translate-y-1 hover:border-paper/60 ${
-                feature ? "p-6 md:col-span-2 md:p-8" : "p-5"
-              }`}
+              style={{ ["--c" as string]: color }}
+              className="group flex min-h-[380px] w-[80vw] shrink-0 snap-start flex-col border-r border-paper/30 transition-colors duration-300 last:border-r-0 hover:bg-[var(--c)] hover:text-ink active:bg-[var(--c)] active:text-ink sm:w-[320px]"
             >
-              <span
-                aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-1"
-                style={{ background: color }}
-              />
-
-              <div className="mo flex items-center justify-between gap-3">
+              {/* date header */}
+              <div className="mo flex items-center justify-between gap-3 border-b border-paper/30 px-5 py-3 group-hover:border-ink/30">
+                <span>
+                  {i.day} {i.year}
+                </span>
                 <span className="flex items-center gap-2">
                   <span
                     className="inline-block h-2 w-2 rounded-full"
                     style={{ background: color }}
                   />
-                  Actively exploited
+                  {fresh ? "New" : i.ago}
                 </span>
-                {now && isNew(i.day, i.year, now) && (
-                  <span
-                    className="shrink-0 rounded-full border px-2 py-0.5"
-                    style={{ color, borderColor: color }}
-                  >
-                    New
-                  </span>
-                )}
               </div>
 
-              <div className={feature ? "mt-12" : "mt-8"}>
-                <p
-                  className={`font-display uppercase leading-[0.95] [overflow-wrap:anywhere] ${
-                    feature
-                      ? "text-[clamp(34px,4.6vw,68px)]"
-                      : "text-[clamp(22px,2.3vw,32px)]"
-                  }`}
-                >
+              {/* body */}
+              <div className="flex flex-1 flex-col px-5 pb-5 pt-6">
+                <p className="font-display text-[clamp(26px,2.2vw,34px)] uppercase leading-[0.98] [overflow-wrap:anywhere]">
                   {i.vendor}
                 </p>
-                <p className="mo mt-2 opacity-60">{i.product}</p>
-                <p
-                  className={`mt-5 font-semibold uppercase leading-[1.1] [overflow-wrap:anywhere] ${
-                    feature ? "text-xl md:text-2xl" : "text-base"
-                  }`}
-                >
+                <p className="mo mt-2 line-clamp-2 opacity-60">{i.product}</p>
+
+                <p className="mt-5 line-clamp-4 text-sm font-semibold uppercase leading-snug [overflow-wrap:anywhere]">
                   {i.name}
                 </p>
-                <p
-                  className={`mt-3 text-sm opacity-60 ${
-                    feature
-                      ? "line-clamp-4 md:max-w-[60ch] md:text-base"
-                      : "line-clamp-3"
-                  }`}
-                >
+                <p className="mt-3 line-clamp-3 text-sm opacity-60">
                   {i.desc}
                 </p>
-              </div>
 
-              <div className="mo mt-6 flex items-center justify-between gap-3 border-t border-ln pt-4">
-                <span className="flex flex-wrap items-center gap-2">
-                  <span>{i.cve}</span>
-                  {i.ransomware && (
-                    <span className="rounded-full bg-ac px-2 py-0.5 text-white">
-                      Ransomware
-                    </span>
-                  )}
-                </span>
-                <span className="text-lg transition-transform duration-300 group-hover:rotate-45">
-                  ↗
-                </span>
+                <div className="mo mt-auto flex items-end justify-between gap-3 pt-6">
+                  <span className="min-w-0">
+                    <span className="block">{i.cve}</span>
+                    {i.ransomware && (
+                      <span className="mt-1 block text-ac group-hover:text-ink">
+                        Ransomware
+                      </span>
+                    )}
+                  </span>
+                  <span className="text-lg leading-none transition-transform duration-300 group-hover:rotate-45">
+                    ↗
+                  </span>
+                </div>
               </div>
             </a>
           );
         })}
       </div>
-
-      <p className="mo mt-6 normal-case tracking-normal opacity-70">
-        Newest first, from CISA&apos;s catalog of vulnerabilities confirmed to
-        be under active attack.
-      </p>
-
-      {visible < pool.length && (
-        <button
-          type="button"
-          onClick={() => setVisible((v) => v + 6)}
-          className="mo mt-6 rounded-full border border-paper/30 px-6 py-3 transition-colors hover:border-paper hover:bg-paper hover:text-ink"
-        >
-          Show 6 more
-        </button>
-      )}
     </div>
   );
 }

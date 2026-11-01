@@ -41,6 +41,7 @@ export default async function HomePage() {
   const { data, error } = await supabase
     .from("posts")
     .select("*")
+    .neq("type", "paper")
     .order("featured", { ascending: false })
     .order("created_at", { ascending: false });
 

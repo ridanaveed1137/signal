@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AuthButton from "@/components/AuthButton";
+import AdminLink from "@/components/AdminLink";
 import SearchBox from "@/components/SearchBox";
 import Ticker from "@/components/Ticker";
 import MobileMenu from "@/components/MobileMenu";
@@ -13,9 +14,13 @@ const links = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-ln bg-bg/90 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-7xl items-center gap-3 px-5 sm:gap-5">
-        <Link href="/" className="font-display text-3xl tracking-[0.02em]">
+    // positioning (sticky / hide on scroll) is handled by <HideOnScroll> in layout.tsx
+    <header className="border-b border-ln bg-bg/90 backdrop-blur">
+      <div className="mx-auto flex h-14 max-w-7xl items-center gap-2 px-4 sm:gap-5 sm:px-5">
+        <Link
+          href="/"
+          className="font-display shrink-0 text-2xl tracking-[0.02em] sm:text-3xl"
+        >
           SIGNAL
         </Link>
 
@@ -35,10 +40,17 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="mo ml-auto flex items-center gap-3 whitespace-nowrap sm:gap-4">
+        <div className="mo ml-auto flex min-w-0 items-center gap-2 whitespace-nowrap sm:gap-4">
           <SearchBox />
+          {/* only visible to a signed-in admin; hidden on phones to save space */}
+          <span className="hidden md:inline-flex">
+            <AdminLink className="rounded-full border border-paper/40 px-3 py-1 transition-colors hover:border-paper hover:bg-paper hover:text-ink" />
+          </span>
           <AuthButton />
-          <MobileMenu links={links} />
+          {/* never let the menu button get pushed off screen */}
+          <span className="shrink-0">
+            <MobileMenu links={links} />
+          </span>
         </div>
       </div>
 

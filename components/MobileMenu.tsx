@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import AdminLink from "@/components/AdminLink";
 
 export default function MobileMenu({
   links,
@@ -33,6 +34,13 @@ export default function MobileMenu({
               {l.label}
             </Link>
           ))}
+
+          {/* only rendered for a signed-in admin */}
+          <AdminLink
+            label="Admin dashboard"
+            onClick={() => setOpen(false)}
+            className="mo block border-t border-ln px-5 py-4 text-sm text-ac hover:opacity-80"
+          />
         </nav>
       )}
     </div>

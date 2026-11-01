@@ -9,6 +9,7 @@ import LicenseForm from "@/components/LicenseForm";
 import Visual from "@/components/Visual";
 import PostCard from "@/components/PostCard";
 import ReadingProgress from "@/components/ReadingProgress";
+import ViewTracker from "@/components/ViewTracker";
 
 export const revalidate = 60;
 
@@ -109,6 +110,7 @@ export default async function PostPage({
         <div className="aspect-[21/9] w-full overflow-hidden border border-ln [&_svg]:h-full [&_svg]:w-full">
           <Visual post={post} />
         </div>
+        <ViewTracker slug={post.slug} />
         <figcaption className="mo mt-2 text-[10px] uppercase tracking-widest text-mu">
           Illustration · Signal
         </figcaption>
